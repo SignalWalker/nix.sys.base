@@ -139,7 +139,7 @@ in {
         "cmd-mic-down" = ''(cmd-button "${pactl} set-source-volume @DEFAULT_SOURCE@ -2%")'';
         "cmd-prev" = ''(cmd-button "${playerctl} -s previous")'';
         "cmd-play-pause" = ''(cmd-button "${playerctl} -s play-pause")'';
-        "cmd-prev" = ''(cmd-button "${playerctl} -s next")'';
+        "cmd-next" = ''(cmd-button "${playerctl} -s next")'';
         "cmd-brightness-up" = ''(cmd-button "${light} -A 5")'';
         "cmd-brightness-down" = ''(cmd-button "${light} -U 5")'';
         "cmd-brightness-max" = ''(cmd-button "${light} -S 100")'';

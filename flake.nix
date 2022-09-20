@@ -10,12 +10,22 @@
       url = github:signalwalker/nix.home.lib;
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.alejandra.follows = "alejandra";
+      inputs.home-manager.follows = "home-manager";
     };
     homebase = {
       url = github:signalwalker/nix.home.base;
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.alejandra.follows = "alejandra";
       inputs.homelib.follows = "homelib";
+      inputs.home-manager.follows = "home-manager";
+    };
+    home-manager = {
+      url = github:nix-community/home-manager;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix = {
+      url = github:nixos/nix;
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     # keyboard
     kmonad = {
@@ -43,6 +53,10 @@
           filter = [];
           outputs = {
             kmonad = {
+              overlays = [ "default" ];
+              nixosModules = [ "default" ];
+            };
+            home-manager = {
               overlays = [ "default" ];
               nixosModules = [ "default" ];
             };

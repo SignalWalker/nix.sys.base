@@ -12,6 +12,7 @@ in {
   config = {
     users = {
       mutableUsers = true;
+      users.root.openssh.authorizedKeys.keys = config.users.users.ash.openssh.authorizedKeys.keys;
       users.ash = {
         description = "Ash Walker";
         isNormalUser = true;
@@ -22,9 +23,9 @@ in {
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJFqg4NlJu7u1pcCel3EZshVwUxIfwpsh2fxhaQlLAar ash@ashwalker.net"
         ];
       };
-      home-manager.users.ash = {...}: {
-        # dependency modules added by nix.home.lib; no need for configuration here
-      };
+    };
+    home-manager.users.ash = {...}: {
+      # dependency modules added by nix.home.lib; no need for configuration here
     };
   };
 }
