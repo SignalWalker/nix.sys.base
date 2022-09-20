@@ -127,30 +127,34 @@ in {
         light = "${pkgs.light}/bin/light";
         terminalCmd = "kitty";
         hkDaemon = "echo";
-      in {
-        "layer-toggle-sys" = ''(layer-toggle sys)'';
-        "layer-toggle-sys-shift" = ''(layer-toggle sys-shift)'';
-        "layer-toggle-sys-alt" = ''(layer-toggle sys-alt)'';
-        "cmd-mute" = ''(cmd-button "${pactl} set-sink-mute @DEFAULT_SINK@ toggle")'';
-        "cmd-volume-up" = ''(cmd-button "${pactl} set-sink-volume @DEFAULT_SINK@ +2%")'';
-        "cmd-volume-down" = ''(cmd-button "${pactl} set-sink-volume @DEFAULT_SINK@ -2%")'';
-        "cmd-mic-mute" = ''(cmd-button "${pactl} set-source-mute @DEFAULT_SOURCE@ toggle")'';
-        "cmd-mic-up" = ''(cmd-button "${pactl} set-source-volume @DEFAULT_SOURCE@ +2%")'';
-        "cmd-mic-down" = ''(cmd-button "${pactl} set-source-volume @DEFAULT_SOURCE@ -2%")'';
-        "cmd-prev" = ''(cmd-button "${playerctl} -s previous")'';
-        "cmd-play-pause" = ''(cmd-button "${playerctl} -s play-pause")'';
-        "cmd-next" = ''(cmd-button "${playerctl} -s next")'';
-        "cmd-brightness-up" = ''(cmd-button "${light} -A 5")'';
-        "cmd-brightness-down" = ''(cmd-button "${light} -U 5")'';
-        "cmd-brightness-max" = ''(cmd-button "${light} -S 100")'';
-        "cmd-brightness-min" = ''(cmd-button "${light} -S 1")'';
-        "cmd-lock" = ''(cmd-button "echo unimplemented: lock")'';
-        "spawn-terminal" = ''(cmd-button "${terminalCmd}")'';
-        "scratch-terminal" = ''(cmd-button "echo unimplemented: scratch")'';
-      } // (foldl' (res: ws: res // {
-        "wm-mv-ws${ws}" = ''(cmd-button "echo unimplemented: mv-ws${ws}")'';
-        "wm-ws${ws}" = ''(cmd-button "echo unimplemented: ws${ws}")'';
-      }) {} [ "1" "2" "3" "4" "5" "6" "7" "8" "9" ]);
+      in
+        {
+          "layer-toggle-sys" = ''(layer-toggle sys)'';
+          "layer-toggle-sys-shift" = ''(layer-toggle sys-shift)'';
+          "layer-toggle-sys-alt" = ''(layer-toggle sys-alt)'';
+          "cmd-mute" = ''(cmd-button "${pactl} set-sink-mute @DEFAULT_SINK@ toggle")'';
+          "cmd-volume-up" = ''(cmd-button "${pactl} set-sink-volume @DEFAULT_SINK@ +2%")'';
+          "cmd-volume-down" = ''(cmd-button "${pactl} set-sink-volume @DEFAULT_SINK@ -2%")'';
+          "cmd-mic-mute" = ''(cmd-button "${pactl} set-source-mute @DEFAULT_SOURCE@ toggle")'';
+          "cmd-mic-up" = ''(cmd-button "${pactl} set-source-volume @DEFAULT_SOURCE@ +2%")'';
+          "cmd-mic-down" = ''(cmd-button "${pactl} set-source-volume @DEFAULT_SOURCE@ -2%")'';
+          "cmd-prev" = ''(cmd-button "${playerctl} -s previous")'';
+          "cmd-play-pause" = ''(cmd-button "${playerctl} -s play-pause")'';
+          "cmd-next" = ''(cmd-button "${playerctl} -s next")'';
+          "cmd-brightness-up" = ''(cmd-button "${light} -A 5")'';
+          "cmd-brightness-down" = ''(cmd-button "${light} -U 5")'';
+          "cmd-brightness-max" = ''(cmd-button "${light} -S 100")'';
+          "cmd-brightness-min" = ''(cmd-button "${light} -S 1")'';
+          "cmd-lock" = ''(cmd-button "echo unimplemented: lock")'';
+          "spawn-terminal" = ''(cmd-button "${terminalCmd}")'';
+          "scratch-terminal" = ''(cmd-button "echo unimplemented: scratch")'';
+        }
+        // (foldl' (res: ws:
+          res
+          // {
+            "wm-mv-ws${ws}" = ''(cmd-button "echo unimplemented: mv-ws${ws}")'';
+            "wm-ws${ws}" = ''(cmd-button "echo unimplemented: ws${ws}")'';
+          }) {} ["1" "2" "3" "4" "5" "6" "7" "8" "9"]);
       layers = {
         main = {
           __default = {type = "source";};
@@ -178,11 +182,13 @@ in {
           __default = "_";
           "lsft" = "@layer-toggle-sys-alt-shift";
         };
-        sys-shift = {
-          __default = "_";
-          "lalt" = "@layer-toggle-sys-alt-shift";
-          "-" = "@wm-mv-scratch";
-        } // (genAttrs [ "1" "2" "3" "4" "5" "6" "7" "8" "9" ] (ws: "@wm-mv-ws${ws}"));
+        sys-shift =
+          {
+            __default = "_";
+            "lalt" = "@layer-toggle-sys-alt-shift";
+            "-" = "@wm-mv-scratch";
+          }
+          // (genAttrs ["1" "2" "3" "4" "5" "6" "7" "8" "9"] (ws: "@wm-mv-ws${ws}"));
         sys-alt-shift = {
           __default = "_";
         };

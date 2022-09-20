@@ -12,7 +12,7 @@ in {
   config = {
     services.openssh = {
       enable = lib.mkDefault true;
-      ports = [ 22 ];
+      ports = [22];
     };
     systemd.network = {
       enable = true;

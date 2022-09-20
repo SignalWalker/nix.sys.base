@@ -12,7 +12,7 @@ in {
   config = {
     services.resolved = {
       enable = true;
-      domains = [ "~." ];
+      domains = ["~."];
       extraConfig = ''
         DNS=9.9.9.9 2620:fe::9
       '';

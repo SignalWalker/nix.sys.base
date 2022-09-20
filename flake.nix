@@ -53,18 +53,18 @@
           filter = [];
           outputs = {
             kmonad = {
-              overlays = [ "default" ];
-              nixosModules = [ "default" ];
+              overlays = ["default"];
+              nixosModules = ["default"];
             };
             home-manager = {
-              overlays = [ "default" ];
-              nixosModules = [ "default" ];
+              overlays = ["default"];
+              nixosModules = ["default"];
             };
           };
         };
         outputs = dependencies: {
-          nixosModules = { ... }: {
-            imports = [ ./nixos-module.nix ];
+          nixosModules = {...}: {
+            imports = [./nixos-module.nix];
           };
         };
       };

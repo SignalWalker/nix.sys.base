@@ -10,7 +10,7 @@ in {
   options = with lib; {};
   imports = [];
   config = {
-    boot.supportedFilesystems = [ "zfs" ];
+    boot.supportedFilesystems = ["zfs"];
     boot.zfs = {
       devNodes = {};
       enableUnstable = true;

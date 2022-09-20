@@ -17,9 +17,9 @@ in {
       optimise.automatic = true;
       settings = {
         auto-optimise-store = true;
-        allowed-users = [ "@wheel" ];
-        trusted-users = [ "root" "@wheel" ];
-        experimental-features = [ "nix-command" "flakes" "ca-derivations" "fetch-closure" "repl-flakes" ];
+        allowed-users = ["@wheel"];
+        trusted-users = ["root" "@wheel"];
+        experimental-features = ["nix-command" "flakes" "ca-derivations" "fetch-closure" "repl-flakes"];
         builders-use-substitutes = true;
         commit-lockfile-summary = "chore: update flake.lock";
         max-jobs = "auto";
