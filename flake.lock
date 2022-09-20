@@ -97,11 +97,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1663695258,
-        "narHash": "sha256-q9DUKgY7v/Q8qYDBSCum1FJhbC+opJeuMQcsqILM3GY=",
+        "lastModified": 1663701072,
+        "narHash": "sha256-NXA4zbkP2E90zAd6cuOhSg/kDa+rEDYPzjyLPsLHwL4=",
         "owner": "signalwalker",
         "repo": "nix.home.base",
-        "rev": "d8b95e3bee4e22353d11643ca9a4b74556777fbe",
+        "rev": "3510838e970cdb34e1cc8ef74d1b8ecd97fb61d6",
         "type": "github"
       },
       "original": {
@@ -133,28 +133,6 @@
       "original": {
         "owner": "signalwalker",
         "repo": "nix.home.lib",
-        "type": "github"
-      }
-    },
-    "kmonad": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "dir": "nix",
-        "lastModified": 1663565216,
-        "narHash": "sha256-S6m7utTGclQL93YtX2KWK8qaaaBDNs6UYxrBsz1w9s0=",
-        "owner": "kmonad",
-        "repo": "kmonad",
-        "rev": "cbdace2bb7b27e47c2397e662265a28a1030b7c7",
-        "type": "github"
-      },
-      "original": {
-        "dir": "nix",
-        "owner": "kmonad",
-        "repo": "kmonad",
         "type": "github"
       }
     },
@@ -234,7 +212,6 @@
         "home-manager": "home-manager",
         "homebase": "homebase",
         "homelib": "homelib",
-        "kmonad": "kmonad",
         "nix": "nix",
         "nixpkgs": "nixpkgs"
       }

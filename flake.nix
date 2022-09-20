@@ -27,11 +27,6 @@
       url = github:nixos/nix;
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # keyboard
-    kmonad = {
-      url = github:kmonad/kmonad?dir=nix;
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
   outputs = inputs @ {
     self,
