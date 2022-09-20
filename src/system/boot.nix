@@ -11,8 +11,8 @@ in {
   imports = [];
   config = {
     boot = {
-      network = {
-        enable = true;
+      initrd.network = {
+        enable = false;
         ssh = {
           enable = true;
           authorizedKeys = config.users.users.root.openssh.authorizedKeys.keys;
