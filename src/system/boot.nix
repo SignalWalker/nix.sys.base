@@ -20,10 +20,10 @@ in {
       };
       loader = {
         efi.efiSysMountPoint = "/boot/efi";
-        efi.canTouchEfiVariables = true;
+        efi.canTouchEfiVariables = lib.mkDefault true;
         generationsDir.copyKernels = true;
         grub = {
-          enable = !config.boot.loader.systemd-boot.enable;
+          enable = lib.mkDefault (!config.boot.loader.systemd-boot.enable);
           useOSProber = true;
           zfsSupport = true;
           version = 2;

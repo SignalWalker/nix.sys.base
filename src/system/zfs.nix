@@ -12,7 +12,7 @@ in {
   config = {
     boot.supportedFilesystems = ["zfs"];
     boot.zfs = {
-      devNodes = {};
+      # package = if config.boot.zfs.enableUnstable then config.boot.kernelPackages.zfsUnstable else config.boot.kernelPackages.zfs;
       enableUnstable = true;
     };
     services.zfs = {
