@@ -1,14 +1,14 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
+{ config
+, pkgs
+, lib
+, ...
 }:
 with builtins; let
   std = pkgs.lib;
-in {
-  options = with lib; {};
-  imports = [];
+in
+{
+  options = with lib; { };
+  imports = [ ];
   config = {
     nix = {
       enable = true;
@@ -17,11 +17,11 @@ in {
       optimise.automatic = true;
       settings = {
         auto-optimise-store = true;
-        allowed-users = ["@wheel"];
-        trusted-users = ["root" "@wheel"];
-        experimental-features = ["nix-command" "flakes" "ca-derivations" "fetch-closure" "repl-flakes"];
+        allowed-users = [ "@wheel" ];
+        trusted-users = [ "root" "@wheel" ];
+        experimental-features = [ "nix-command" "flakes" "ca-derivations" "fetch-closure" "repl-flakes" ];
         builders-use-substitutes = true;
-        commit-lockfile-summary = "chore: update flake.lock";
+        commit-lockfile-summary = "build(nix): update flake.lock";
         max-jobs = "auto";
         cores = 0;
         substitute = true;
