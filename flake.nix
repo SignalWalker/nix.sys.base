@@ -48,7 +48,10 @@
       home = hlib.home;
       signal = hlib.signal;
       sys = hlib.sys;
-      self' = signal.flake.resolve { flake = self; name = "sys.base"; };
+      self' = signal.flake.resolve {
+        flake = self;
+        name = "sys.base";
+      };
     in {
       formatter = std.mapAttrs (system: pkgs: pkgs.default) inputs.alejandra.packages;
       signalModules.default = {
@@ -68,7 +71,7 @@
           };
         };
         outputs = dependencies: {
-          nixosModules = { modulesPath, ... }: {
+          nixosModules = {modulesPath, ...}: {
             imports = [./nixos-module.nix];
           };
         };
@@ -86,7 +89,7 @@
         #       };
         #     })
         #   ];
-          # ++ hlib.fs.path.listFilePaths inputs.sysCfg;
+        # ++ hlib.fs.path.listFilePaths inputs.sysCfg;
       };
       packages = std.genAttrs ["x86_64-linux"] (system:
         foldl' (res: name: let
@@ -114,10 +117,12 @@
         foldl' (res: name: {
           "${name}-qemu" = {
             type = "app";
-            program = let script = pkgs.writeScript "${name}-qemu" ''
-              #! /usr/bin/env sh
-              ${pkgs.qemu}/bin/qemu-system-x86_64 -kernel ${packages."${name}-kernel"}/bzImage -initrd ${packages."${name}-initrd"}/initrd -hda /dev/null
-            ''; in "${script}";
+            program = let
+              script = pkgs.writeScript "${name}-qemu" ''
+                #! /usr/bin/env sh
+                ${pkgs.qemu}/bin/qemu-system-x86_64 -kernel ${packages."${name}-kernel"}/bzImage -initrd ${packages."${name}-initrd"}/initrd -hda /dev/null
+              '';
+            in "${script}";
           };
         }) {} (attrNames self.nixosConfigurations))
       self.packages;
