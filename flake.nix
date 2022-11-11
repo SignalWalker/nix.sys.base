@@ -27,10 +27,10 @@
     #   url = github:nixos/nix?;
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
-    sysCfg = {
-      url = path:/etc/nixos;
-      flake = false;
-    };
+    # sysCfg = {
+    #   url = path:/etc/nixos;
+    #   flake = false;
+    # };
     nixos-generators = {
       url = github:nix-community/nixos-generators;
       inputs.nixpkgs.follows = "nixpkgs";
