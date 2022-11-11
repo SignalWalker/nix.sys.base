@@ -97,11 +97,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1668183684,
-        "narHash": "sha256-ET+5mkJmie2K+6kWrgX7t4S/4iEVAMnR3wL/5cSXdPM=",
+        "lastModified": 1668185114,
+        "narHash": "sha256-KOdxl8mFUUO4pOC00FuetMKx4XNNsvtQAy7MZRp0HN0=",
         "owner": "signalwalker",
         "repo": "nix.home.base",
-        "rev": "b2ec10c5c2fbd63114272b3925c288e0c6d3d403",
+        "rev": "c818819d406b1ff68106f5b0a8d6c7107ee87104",
         "type": "github"
       },
       "original": {
@@ -195,8 +195,7 @@
         "homebase": "homebase",
         "homelib": "homelib",
         "nixos-generators": "nixos-generators",
-        "nixpkgs": "nixpkgs",
-        "sysCfg": "sysCfg"
+        "nixpkgs": "nixpkgs"
       }
     },
     "rust-analyzer-src": {
@@ -214,19 +213,6 @@
         "ref": "nightly",
         "repo": "rust-analyzer",
         "type": "github"
-      }
-    },
-    "sysCfg": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1663715229,
-        "narHash": "sha256-kFa+9WK7U0Exzo9LqmNzT4d8FQtzoMMkvYL+UklRIcU=",
-        "path": "/etc/nixos",
-        "type": "path"
-      },
-      "original": {
-        "path": "/etc/nixos",
-        "type": "path"
       }
     },
     "utils": {
