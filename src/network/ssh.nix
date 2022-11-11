@@ -14,8 +14,9 @@ in {
       enable = lib.mkDefault true;
       permitRootLogin = lib.mkForce "no";
       passwordAuthentication = false;
-      openFirewall = false;
+      openFirewall = true;
       kbdInteractiveAuthentication = false;
+	  ports = [ 22 ];
     };
   };
 }
