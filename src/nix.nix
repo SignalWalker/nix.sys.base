@@ -19,7 +19,7 @@ in {
         auto-optimise-store = true;
         allowed-users = ["@wheel"];
         trusted-users = ["root" "@wheel"];
-        experimental-features = ["nix-command" "flakes" "ca-derivations" "fetch-closure" "repl-flakes"];
+        experimental-features = ["nix-command" "flakes" "ca-derivations" "fetch-closure" ];
         builders-use-substitutes = true;
         commit-lockfile-summary = "build(nix): update flake.lock";
         max-jobs = "auto";
