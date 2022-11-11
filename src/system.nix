@@ -10,7 +10,6 @@ in {
   options = with lib; {};
   imports = lib.signal.fs.path.listFilePaths ./system;
   config = {
-    boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
     i18n.defaultLocale = "en_US.UTF-8";
     time.timeZone = lib.mkDefault "America/NewYork";
     programs.mtr.enable = true;
