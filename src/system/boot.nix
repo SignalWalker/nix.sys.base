@@ -16,6 +16,7 @@ in {
         ssh = {
           enable = true;
           authorizedKeys = config.users.users.root.openssh.authorizedKeys.keys;
+          port = lib.mkDefault (head config.services.openssh.ports);
         };
       };
     };

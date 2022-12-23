@@ -106,6 +106,7 @@
               pkgs = cfg.pkgs;
               modules = self'.nixosModules.default;
             };
+            "${name}-vm" = cfg.config.system.build.vm;
           }) {} (attrNames self.nixosConfigurations));
       apps = mapAttrs (system: packages: let
         pkgs = import nixpkgs {

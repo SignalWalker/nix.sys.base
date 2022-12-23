@@ -12,6 +12,34 @@ in {
   config = {
     systemd.network = {
       enable = true;
+      networks."eth" = {
+        enable = true;
+        matchConfig = {
+          Type = "ether";
+          Name = "enp*";
+        };
+        networkConfig = {
+          DHCP = lib.mkDefault "yes";
+          MulticastDNS = lib.mkDefault (
+            if config.networking.domain == "local"
+            then "yes"
+            else "no"
+          );
+          LLMNR = lib.mkDefault "no";
+        };
+        routes = lib.mkDefault [
+          {
+            routeConfig = {
+              Gateway = "_dhcp4";
+            };
+          }
+          {
+            routeConfig = {
+              Gateway = "_ipv6ra";
+            };
+          }
+        ];
+      };
     };
   };
 }

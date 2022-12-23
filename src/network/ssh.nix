@@ -16,7 +16,7 @@ in {
       passwordAuthentication = false;
       openFirewall = true;
       kbdInteractiveAuthentication = false;
-	  ports = [ 22 ];
+      ports = [22];
     };
   };
 }
