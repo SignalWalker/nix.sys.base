@@ -11,7 +11,6 @@ in {
   imports = lib.signal.fs.path.listFilePaths ./system;
   config = {
     environment.systemPackages = with pkgs; [
-      vim
       wget
       neovim
       git
