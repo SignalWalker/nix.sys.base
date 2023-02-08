@@ -6,9 +6,14 @@
 }:
 with builtins; let
   std = pkgs.lib;
+  resolved = config.services.resolved;
 in {
   options = with lib; {
     services.resolved = {
+      dns = mkOption {
+        type = types.listOf types.str;
+        default = config.networking.nameservers ++ ["9.9.9.9" "2620:fe::9"];
+      };
       multicastDns = mkEnableOption "MulticastDNS support";
     };
   };
@@ -31,7 +36,7 @@ in {
           then "yes"
           else "no";
       in ''
-        DNS=9.9.9.9 2620:fe::9
+        DNS=${toString resolved.dns}
         MulticastDNS=${mdns}
       '';
     };

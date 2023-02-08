@@ -47,6 +47,7 @@ in {
       sshServe = {
         enable = true;
         keys = config.users.users.ash.openssh.authorizedKeys.keys;
+        protocol = "ssh-ng";
       };
     };
   };
