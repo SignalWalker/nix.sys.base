@@ -12,11 +12,13 @@ in {
   config = {
     services.openssh = {
       enable = lib.mkDefault true;
-      permitRootLogin = lib.mkForce "no";
-      passwordAuthentication = false;
       openFirewall = true;
-      kbdInteractiveAuthentication = false;
       ports = [22];
+      settings = {
+        PermitRootLogin = lib.mkForce "no";
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+      };
     };
   };
 }
