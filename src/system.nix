@@ -16,6 +16,8 @@ in {
       git
     ];
 
+    programs.zsh.enable = true;
+
     i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
     time.timeZone = lib.mkDefault "America/NewYork";
 
