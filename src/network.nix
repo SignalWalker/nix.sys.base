@@ -7,7 +7,8 @@
 with builtins; let
   std = pkgs.lib;
 in {
-  options = with lib; {};
+  options = with lib; {
+  };
   imports = lib.signal.fs.path.listFilePaths ./network;
   config = {
     systemd.network = {

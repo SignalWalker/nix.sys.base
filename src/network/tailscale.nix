@@ -26,6 +26,7 @@ in {
         enable = true;
       };
       networking.firewall.checkReversePath = "loose";
+      systemd.network.wait-online.ignoredInterfaces = ["tailscale0"];
     }
     (lib.mkIf (ts.tailnet.name != null) {
       networking.nameservers = ["100.100.100.100"];
