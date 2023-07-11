@@ -27,7 +27,7 @@ in {
       enableSSHSupport = true;
     };
 
-    hardware.enableAllFirmware = lib.mkDefault config.nixpkgs.allowUnfree;
+    hardware.enableAllFirmware = lib.mkDefault config.nixpkgs.config.allowUnfree;
     hardware.enableRedistributableFirmware = lib.mkDefault true;
 
     system.stateVersion = "22.11";
