@@ -12,7 +12,7 @@ in {
   imports = lib.signal.fs.path.listFilePaths ./network;
   config = {
     systemd.network = {
-      enable = true;
+      enable = lib.mkDefault true;
       networks."eth" = {
         enable = true;
         matchConfig = {
