@@ -10,7 +10,9 @@ in {
   options = with lib; {};
   imports = [];
   config = {
+    # boot.supportedFilesystems = ["zfs"];
     boot.zfs = {
+      forceImportRoot = false;
       # package = if config.boot.zfs.enableUnstable then config.boot.kernelPackages.zfsUnstable else config.boot.kernelPackages.zfs;
       # enableUnstable = true;
     };
