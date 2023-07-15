@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  # homeManagerModules,
   ...
 }:
 with builtins; let
@@ -24,8 +25,12 @@ in {
         ];
       };
     };
-    home-manager.users.ash = {...}: {
-      # dependency modules added by nix.home.lib; no need for configuration here
+    home-manager = {
+      useUserPackages = true;
+      useGlobalPkgs = false;
+      # users.ash = {...}: {
+      #   imports = homeManagerModules;
+      # };
     };
   };
 }
