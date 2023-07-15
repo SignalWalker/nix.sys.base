@@ -44,22 +44,6 @@
         "type": "github"
       }
     },
-    "fishFzf": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1689114187,
-        "narHash": "sha256-Aqr6+DcOS3U1R8o9Mlbxszo5/Dy9viU4KbmRGXo95R8=",
-        "owner": "PatrickF1",
-        "repo": "fzf.fish",
-        "rev": "9876f5f74aab7f58b0359341dc26bf4a0f2e9021",
-        "type": "github"
-      },
-      "original": {
-        "owner": "PatrickF1",
-        "repo": "fzf.fish",
-        "type": "github"
-      }
-    },
     "flakeCompat": {
       "flake": false,
       "locked": {
@@ -83,123 +67,31 @@
         ]
       },
       "locked": {
-        "lastModified": 1689362769,
-        "narHash": "sha256-5V7Z7T9019pGsFnYH6va5h6Wveq8FKmXa/xLfj0DhNI=",
+        "lastModified": 1689432596,
+        "narHash": "sha256-Vixn4nhjeHjGG3o6hDAnSZbXsYMYA5b39+NwAbUPpi0=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c1cdce3d89741d402d8fd2c93e3d2643ff85b053",
+        "rev": "346032240c15d8b6034847dc7a5f53312a5a57fc",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
-        "type": "github"
-      }
-    },
-    "homebase": {
-      "inputs": {
-        "alejandra": [
-          "alejandra"
-        ],
-        "fishFzf": "fishFzf",
-        "home-manager": [
-          "home-manager"
-        ],
-        "homelib": [
-          "homelib"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1689366077,
-        "narHash": "sha256-cxVds/wxWQmTu6IcxsBcp6rXgmoedZnGHqXxstiMVw0=",
-        "owner": "signalwalker",
-        "repo": "nix.home.base",
-        "rev": "13aad6ffb1d9123fdc94497be1c67e19cc427c4b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "signalwalker",
-        "repo": "nix.home.base",
-        "type": "github"
-      }
-    },
-    "homelib": {
-      "inputs": {
-        "alejandra": [
-          "alejandra"
-        ],
-        "home-manager": [
-          "home-manager"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1689366033,
-        "narHash": "sha256-a35O1UakhldK2plRYB3NbadhLsxrrfsQB1+ZpkTjhgU=",
-        "owner": "signalwalker",
-        "repo": "nix.home.lib",
-        "rev": "a96efbdd2f8683ac2bd87e317d9ffcaca11a4a88",
-        "type": "github"
-      },
-      "original": {
-        "owner": "signalwalker",
-        "repo": "nix.home.lib",
-        "type": "github"
-      }
-    },
-    "nixlib": {
-      "locked": {
-        "lastModified": 1688259758,
-        "narHash": "sha256-CYVbYQfIm3vwciCf6CCYE+WOOLE3vcfxfEfNHIfKUJQ=",
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "rev": "a92befce80a487380ea5e92ae515fe33cebd3ac6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "type": "github"
-      }
-    },
-    "nixos-generators": {
-      "inputs": {
-        "nixlib": "nixlib",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1688738567,
-        "narHash": "sha256-yax5BYOfpE0+95kyJmEcfKEdZBaFvCENDogBB4VQB3Q=",
-        "owner": "nix-community",
-        "repo": "nixos-generators",
-        "rev": "9191c85aab6b1a7ad395c13d340f2aa0e3ddf552",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "nixos-generators",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1689321787,
-        "narHash": "sha256-ifk7hrfWnJaLlcjCf8YaWDR+9kQ0uT3x9eCz31D9qB0=",
+        "lastModified": 1689282004,
+        "narHash": "sha256-VNhuyb10c9SV+3hZOlxwJwzEGytZ31gN9w4nPCnNvdI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c11464c6625d9a71d91a3718a3567394638efc3e",
+        "rev": "e74e68449c385db82de3170288a28cd0f608544f",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -208,9 +100,6 @@
       "inputs": {
         "alejandra": "alejandra",
         "home-manager": "home-manager",
-        "homebase": "homebase",
-        "homelib": "homelib",
-        "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs"
       }
     },
