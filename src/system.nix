@@ -14,6 +14,7 @@ in {
       neovim
       wget
       git
+      parted
     ];
 
     programs.zsh.enable = true;
