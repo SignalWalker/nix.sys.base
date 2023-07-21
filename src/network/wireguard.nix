@@ -88,6 +88,10 @@ in {
                   type = types.listOf wgPeer;
                   default = [];
                 };
+                addresses = mkOption {
+                  type = types.listOf types.str;
+                  default = [];
+                };
               };
               config = {};
             })
@@ -102,6 +106,10 @@ in {
     systemd.network.netdevs =
       std.mapAttrs (netname: network: {
         enable = network.enable;
+        netdevConfig = {
+          Name = netname;
+          Kind = "wireguard";
+        };
         wireguardConfig = lib.mkMerge [
           {
             ListenPort = network.port;
@@ -136,6 +144,32 @@ in {
             })
           ])
         network.peers;
+      })
+      wg.networks;
+
+    systemd.network.networks =
+      std.mapAttrs (netname: network: {
+        enable = network.enable;
+        matchConfig = {
+          Name = netname;
+          Type = "wireguard";
+        };
+        linkConfig = {
+          RequiredForOnline = false;
+        };
+        networkConfig = {
+          DHCP = false;
+          LLMNR = false;
+        };
+        addresses =
+          map (addr: {
+            addressConfig = {
+              Address = addr;
+              AddPrefixRoute = false;
+              Scope = "link";
+            };
+          })
+          network.addresses;
       })
       wg.networks;
   };

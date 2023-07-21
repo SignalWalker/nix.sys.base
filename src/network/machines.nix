@@ -20,13 +20,13 @@ in {
         {
           # terra
           publicKey = "kFTqdNZD4LieJ+05tsELgTmAmFukny/6fzCHjixbEGc=";
-          allowedIps = ["172.24.86.1" "fd24:fad3:8246::1"];
+          allowedIps = ["172.24.86.1/32" "fd24:fad3:8246::1/128"];
           endpoint = "home.ashwalker.net";
         }
         {
           # artemis
           publicKey = "RbU3KFqzrogX2zkscu7pu1t1QcyJz4Vr3lesveicI3Y=";
-          allowedIps = ["172.24.86.2" "fd24:fad3:8249::2"];
+          allowedIps = ["172.24.86.2/32" "fd24:fad3:8249::2/128"];
         }
       ];
     };
