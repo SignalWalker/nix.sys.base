@@ -32,7 +32,7 @@ in {
       ];
       extraConfig = let
         mdns =
-          if config.services.resolved.multicastDns
+          if resolved.multicastDns
           then "yes"
           else "no";
       in ''

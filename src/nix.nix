@@ -24,7 +24,7 @@ in {
       settings = {
         auto-optimise-store = true;
         allowed-users = ["@wheel"];
-        trusted-users = ["root" "@wheel"];
+        trusted-users = ["root" "@wheel"] ++ (std.optional config.nix.sshServe.write "nix-ssh");
         experimental-features = ["nix-command" "flakes" "ca-derivations" "fetch-closure" "repl-flake" "auto-allocate-uids" "cgroups"];
         builders-use-substitutes = true;
         commit-lockfile-summary = "build(nix): update flake.lock";

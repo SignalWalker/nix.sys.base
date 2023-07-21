@@ -17,7 +17,7 @@ in {
       users.ash = {
         description = "Ash Walker";
         isNormalUser = true;
-        extraGroups = ["wheel" "input" "uinput" "video" "audio"];
+        extraGroups = ["wheel" "input" "uinput" "video" "audio" "libvirtd"];
         # initialHashedPassword = "";
         shell = pkgs.zsh;
         openssh.authorizedKeys.keys = [
@@ -27,10 +27,7 @@ in {
     };
     home-manager = {
       useUserPackages = true;
-      useGlobalPkgs = false;
-      # users.ash = {...}: {
-      #   imports = homeManagerModules;
-      # };
+      useGlobalPkgs = lib.mkDefault true;
     };
   };
 }
