@@ -93,16 +93,14 @@ in {
             })
           ];
         });
+        default = {};
       };
     };
   };
   imports = [];
-  config = lib.mkMerge ([
-    ]
-    ++ (map (netname: let
-      network = wg.networks.${netname};
-    in {
-      systemd.network.netdevs.${netname} = {
+  config = {
+    systemd.network.netdevs =
+      std.mapAttrs (netname: network: {
         enable = network.enable;
         wireguardConfig = lib.mkMerge [
           {
@@ -138,6 +136,7 @@ in {
             })
           ])
         network.peers;
-      };
-    }) (attrNames wg.networks)));
+      })
+      wg.networks;
+  };
 }
