@@ -7,7 +7,7 @@
 with builtins; let
   std = pkgs.lib;
   wg = config.signal.network.wireguard;
-  wgPeer = types.submoduleWith {
+  wgPeer = lib.types.submoduleWith {
     modules = [
       ({
         config,
@@ -32,7 +32,7 @@ with builtins; let
             default = null;
           };
           persistentKeepAlive = mkOption {
-            type = types.int.u16;
+            type = types.int;
             default = 0;
           };
           routeTable = mkOption {
@@ -40,7 +40,7 @@ with builtins; let
             default = null;
           };
           routeMetric = mkOption {
-            type = types.nullOr types.int.u32;
+            type = types.nullOr types.int;
             default = null;
           };
         };
@@ -73,7 +73,7 @@ in {
                   default = "auto";
                 };
                 firewallMark = mkOption {
-                  type = types.nullOr types.int.u32;
+                  type = types.nullOr types.int;
                   default = null;
                 };
                 routeTable = mkOption {
@@ -81,7 +81,7 @@ in {
                   default = "0";
                 };
                 routeMetric = mkOption {
-                  type = types.nullOr types.int.u32;
+                  type = types.nullOr types.int;
                   default = null;
                 };
                 peers = mkOption {
@@ -123,27 +123,29 @@ in {
             RouteMetric = network.routeMetric;
           })
         ];
-        wireguardPeers = map (peer:
-          lib.mkMerge [
-            {
-              PublicKey = peer.publicKey;
-              AllowedIPs = peer.allowedIps;
-              PersistentKeepAlive = peer.persistentKeepAlive;
-            }
-            (lib.mkIf (peer.presharedKeyFile != null) {
-              PresharedKeyFile = peer.presharedKeyFile;
-            })
-            (lib.mkIf (peer.endpoint != null) {
-              Endpoint = peer.endpoint;
-            })
-            (lib.mkIf (peer.routeTable != null) {
-              RouteTable = peer.routeTable;
-            })
-            (lib.mkIf (peer.routeMetric != null) {
-              RouteMetric = peer.routeMetric;
-            })
-          ])
-        network.peers;
+        wireguardPeers =
+          map (peer: {
+            wireguardPeerConfig = lib.mkMerge [
+              {
+                PublicKey = peer.publicKey;
+                AllowedIPs = peer.allowedIps;
+                PersistentKeepalive = peer.persistentKeepAlive;
+              }
+              (lib.mkIf (peer.presharedKeyFile != null) {
+                PresharedKeyFile = peer.presharedKeyFile;
+              })
+              (lib.mkIf (peer.endpoint != null) {
+                Endpoint = peer.endpoint;
+              })
+              (lib.mkIf (peer.routeTable != null) {
+                RouteTable = peer.routeTable;
+              })
+              (lib.mkIf (peer.routeMetric != null) {
+                RouteMetric = peer.routeMetric;
+              })
+            ];
+          })
+          network.peers;
       })
       wg.networks;
 
@@ -155,18 +157,18 @@ in {
           Type = "wireguard";
         };
         linkConfig = {
-          RequiredForOnline = false;
+          RequiredForOnline = "no";
         };
         networkConfig = {
-          DHCP = false;
-          LLMNR = false;
+          # DHCP = false;
+          # LLMNR = false;
         };
         addresses =
           map (addr: {
             addressConfig = {
               Address = addr;
-              AddPrefixRoute = false;
-              Scope = "link";
+              # AddPrefixRoute = "no";
+              # Scope = "link";
             };
           })
           network.addresses;

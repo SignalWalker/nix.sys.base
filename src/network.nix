@@ -13,6 +13,9 @@ in {
   };
   imports = lib.signal.fs.path.listFilePaths ./network;
   config = {
+    networking.nftables = {
+      enable = true;
+    };
     networking.wireless.iwd = {
       enable = lib.mkDefault true;
       settings = {

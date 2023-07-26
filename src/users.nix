@@ -17,7 +17,7 @@ in {
       users.ash = {
         description = "Ash Walker";
         isNormalUser = true;
-        extraGroups = ["wheel" "input" "uinput" "video" "audio" "libvirtd"];
+        extraGroups = ["wheel" "input" "uinput" "video" "audio" "libvirtd" "wireshark"];
         # initialHashedPassword = "";
         shell = pkgs.zsh;
         openssh.authorizedKeys.keys = [

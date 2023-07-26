@@ -29,6 +29,9 @@ in {
       systemd.network = {
         wait-online.ignoredInterfaces = ["tailscale0"];
         networks."tailscale" = {
+          matchConfig = {
+            Name = "tailscale*";
+          };
           linkConfig = {
             Unmanaged = true;
           };
