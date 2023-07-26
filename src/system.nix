@@ -15,9 +15,16 @@ in {
       wget
       git
       parted
+      usbutils
+      pciutils
+      lshw
     ];
 
-    programs.zsh.enable = true;
+    programs.zsh = {
+      enable = true;
+      # called from within ~/.config/zsh/.zshrc
+      enableGlobalCompInit = false;
+    };
 
     i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
     time.timeZone = lib.mkDefault "America/NewYork";
