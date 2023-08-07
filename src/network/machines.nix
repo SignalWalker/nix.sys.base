@@ -177,7 +177,7 @@ in {
         };
         "artemis" = {
           wireguard = {
-            publicKey = "RbU3KFqzrogX2zkscu7pu1t1QcyJz4Vr3lesveicI3Y=";
+            publicKey = "32SABdZ763omOzncqti46Zk6nL1vb9zJfDyAyc3TF0U=";
             allowedIps = ["172.24.86.2/32" "fd24:fad3:8249::2/128"];
           };
         };

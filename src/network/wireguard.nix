@@ -77,8 +77,8 @@ in {
                   default = null;
                 };
                 routeTable = mkOption {
-                  type = types.str;
-                  default = "0";
+                  type = types.nullOr types.str;
+                  default = null;
                 };
                 routeMetric = mkOption {
                   type = types.nullOr types.int;
@@ -92,6 +92,18 @@ in {
                   type = types.listOf types.str;
                   default = [];
                 };
+                dns = mkOption {
+                  type = types.listOf types.str;
+                  default = [];
+                };
+                extraNetdevConfig = mkOption {
+                  type = types.attrsOf types.anything;
+                  default = {};
+                };
+                extraNetworkConfig = mkOption {
+                  type = types.attrsOf types.anything;
+                  default = {};
+                };
               };
               config = {};
             })
@@ -104,75 +116,84 @@ in {
   imports = [];
   config = {
     systemd.network.netdevs =
-      std.mapAttrs (netname: network: {
-        enable = network.enable;
-        netdevConfig = {
-          Name = netname;
-          Kind = "wireguard";
-        };
-        wireguardConfig = lib.mkMerge [
-          {
-            ListenPort = network.port;
-            PrivateKeyFile = network.privateKeyFile;
-            RouteTable = network.routeTable;
-          }
-          (lib.mkIf (network.firewallMark != null) {
-            FirewallMark = network.firewallMark;
-          })
-          (lib.mkIf (network.routeMetric != null) {
-            RouteMetric = network.routeMetric;
-          })
-        ];
-        wireguardPeers =
-          map (peer: {
-            wireguardPeerConfig = lib.mkMerge [
-              {
-                PublicKey = peer.publicKey;
-                AllowedIPs = peer.allowedIps;
-                PersistentKeepalive = peer.persistentKeepAlive;
-              }
-              (lib.mkIf (peer.presharedKeyFile != null) {
-                PresharedKeyFile = peer.presharedKeyFile;
-              })
-              (lib.mkIf (peer.endpoint != null) {
-                Endpoint = peer.endpoint;
-              })
-              (lib.mkIf (peer.routeTable != null) {
-                RouteTable = peer.routeTable;
-              })
-              (lib.mkIf (peer.routeMetric != null) {
-                RouteMetric = peer.routeMetric;
-              })
-            ];
-          })
-          network.peers;
-      })
+      std.mapAttrs (netname: network: (lib.mkMerge [
+        {
+          enable = network.enable;
+          netdevConfig = {
+            Name = netname;
+            Kind = "wireguard";
+          };
+          wireguardConfig = lib.mkMerge [
+            {
+              ListenPort = network.port;
+              PrivateKeyFile = network.privateKeyFile;
+            }
+            (lib.mkIf (network.routeTable != null) {
+              RouteTable = network.routeTable;
+            })
+            (lib.mkIf (network.firewallMark != null) {
+              FirewallMark = network.firewallMark;
+            })
+            (lib.mkIf (network.routeMetric != null) {
+              RouteMetric = network.routeMetric;
+            })
+          ];
+          wireguardPeers =
+            map (peer: {
+              wireguardPeerConfig = lib.mkMerge [
+                {
+                  PublicKey = peer.publicKey;
+                  AllowedIPs = peer.allowedIps;
+                  PersistentKeepalive = peer.persistentKeepAlive;
+                }
+                (lib.mkIf (peer.presharedKeyFile != null) {
+                  PresharedKeyFile = peer.presharedKeyFile;
+                })
+                (lib.mkIf (peer.endpoint != null) {
+                  Endpoint = peer.endpoint;
+                })
+                (lib.mkIf (peer.routeTable != null) {
+                  RouteTable = peer.routeTable;
+                })
+                (lib.mkIf (peer.routeMetric != null) {
+                  RouteMetric = peer.routeMetric;
+                })
+              ];
+            })
+            network.peers;
+        }
+        network.extraNetdevConfig
+      ]))
       wg.networks;
 
     systemd.network.networks =
-      std.mapAttrs (netname: network: {
-        enable = network.enable;
-        matchConfig = {
-          Name = netname;
-          Type = "wireguard";
-        };
-        linkConfig = {
-          RequiredForOnline = "no";
-        };
-        networkConfig = {
-          # DHCP = false;
-          # LLMNR = false;
-        };
-        addresses =
-          map (addr: {
-            addressConfig = {
-              Address = addr;
-              # AddPrefixRoute = "no";
-              # Scope = "link";
-            };
-          })
-          network.addresses;
-      })
+      std.mapAttrs (netname: network: (lib.mkMerge [
+        {
+          enable = network.enable;
+          matchConfig = {
+            Name = netname;
+            Type = "wireguard";
+          };
+          linkConfig = {
+            RequiredForOnline = "no";
+          };
+          networkConfig = {
+            # DHCP = false;
+            # LLMNR = false;
+          };
+          dns = network.dns;
+          addresses =
+            map (addr: {
+              addressConfig = {
+                Address = addr;
+                # AddPrefixRoute = "no";
+                # Scope = "link";
+              };
+            })
+            network.addresses;
+        }
+        network.extraNetworkConfig
+      ]))
       wg.networks;
   };
 }

@@ -14,6 +14,9 @@ in {
       config = {
         allowUnfree = true;
         allowUnfreePredicate = pkg: true;
+        permittedInsecurePackages = [
+          "python-2.7.18.6" # for aseprite
+        ];
       };
     };
     nix = {
