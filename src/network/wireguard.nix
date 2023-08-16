@@ -96,6 +96,10 @@ in {
                   type = types.listOf types.str;
                   default = [];
                 };
+                domains = mkOption {
+                  type = types.listOf types.str;
+                  default = [];
+                };
                 extraNetdevConfig = mkOption {
                   type = types.attrsOf types.anything;
                   default = {};
@@ -192,6 +196,9 @@ in {
             })
             network.addresses;
         }
+        (lib.mkIf (network.domains != []) {
+          domains = network.domains;
+        })
         network.extraNetworkConfig
       ]))
       wg.networks;

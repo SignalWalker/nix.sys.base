@@ -165,9 +165,9 @@ in {
           };
           nix = {
             build = {
-              enable = true;
+              enable = lib.mkDefault true;
               authorizedKeys = config.users.users.ash.openssh.authorizedKeys.keys;
-              fqdn = "terra.tail3d611.ts.net";
+              fqdn = "terra.ashwalker.net";
               systems = ["x86_64-linux"];
               supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "uid-range" "kvm" "ca-derivations"];
               maxJobs = 8;
@@ -186,6 +186,8 @@ in {
         enable = wg-signal ? privateKeyFile;
         port = 51860;
         addresses = map (addr: toString addr) (local.wireguard.addresses or []);
+        dns = ["172.24.86.1" "fd24:fad3:8246::1"];
+        domains = map (mcn: "~${mcn}.ashwalker.net") (attrNames machines);
         peers = foldl' (peers: name: let
           mcn = machines.${name};
         in
@@ -201,12 +203,11 @@ in {
               ])) [] (attrNames machines);
       };
       networking = {
-        extraHosts = ''
-          172.24.86.1 terra.ashwalker.net
-          fd24:fad3:8246::1 terra.ashwalker.net
-          172.24.86.2 artemis.ashwalker.net
-          fd24:fad3:8246::2 artemis.ashwalker.net
-        '';
+        # hosts = foldl' (acc: name:
+        #   acc
+        #   // (
+        #     std.genAttrs (map (addr: addr.address) machines.${name}.wireguard.addresses) (addr: ["${name}.ashwalker.net"])
+        #   )) {} (attrNames machines);
         firewall = {
           trustedInterfaces = ["wg-signal"];
           allowedUDPPorts = [51860];
@@ -218,7 +219,7 @@ in {
           mcn = machines.${name};
           build = mcn.nix.build;
         in
-          if (mcn.fqdn == config.networking.fqdn || !build.enable)
+          if (mcn.hostName == config.networking.hostName || !build.enable)
           then peers
           else
             (peers
