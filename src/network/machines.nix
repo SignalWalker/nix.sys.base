@@ -165,7 +165,7 @@ in {
           };
           nix = {
             build = {
-              enable = lib.mkDefault true;
+              enable = lib.mkDefault false;
               authorizedKeys = config.users.users.ash.openssh.authorizedKeys.keys;
               fqdn = "terra.ashwalker.net";
               systems = ["x86_64-linux"];
@@ -179,6 +179,12 @@ in {
           wireguard = {
             publicKey = "32SABdZ763omOzncqti46Zk6nL1vb9zJfDyAyc3TF0U=";
             allowedIps = ["172.24.86.2/32" "fd24:fad3:8249::2/128"];
+          };
+        };
+        "hermes" = {
+          wireguard = {
+            publicKey = "C59ll7RCY2m4P4LFLS3AA5wZSnSBRXe3qFeBBnthFjU=";
+            allowedIps = ["172.24.86.3/32" "fd24:fad3:8249::3/128"];
           };
         };
       };

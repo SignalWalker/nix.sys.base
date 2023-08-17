@@ -15,7 +15,7 @@ in {
       openFirewall = true;
       ports = [22];
       settings = {
-        PermitRootLogin = lib.mkForce "no";
+        PermitRootLogin = "prohibit-password";
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
       };
