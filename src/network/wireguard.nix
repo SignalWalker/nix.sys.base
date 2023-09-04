@@ -119,6 +119,7 @@ in {
   };
   imports = [];
   config = {
+    environment.systemPackages = with pkgs; [wireguard-tools];
     systemd.network.netdevs =
       std.mapAttrs (netname: network: (lib.mkMerge [
         {

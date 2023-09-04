@@ -25,6 +25,14 @@ with builtins; let
           mask = mkOption {
             type = types.int;
           };
+          type = mkOption {
+            type = types.enum ["v4" "v6"];
+            readOnly = true;
+            default =
+              if std.hasInfix ":" config.address
+              then "v6"
+              else "v4";
+          };
           __toString = mkOption {
             type = types.anything;
             readOnly = true;
@@ -35,6 +43,14 @@ with builtins; let
       })
     ];
   };
+  addressTypeCoerced = with lib;
+    types.coercedTo types.str (addr: let
+      matches = match "([^/]+)/(.*)" addr;
+    in {
+      address = elemAt matches 0;
+      mask = toInt (elemAt matches 1);
+    })
+    addressType;
 in {
   options = with lib; {
     signal.machines = mkOption {
@@ -66,32 +82,21 @@ in {
                   type = types.str;
                 };
                 allowedIps = mkOption {
-                  type = types.listOf (types.coercedTo types.str (addr: let
-                      matches = match "([^/]+)/(.*)" addr;
-                    in {
-                      address = elemAt matches 0;
-                      mask = toInt (elemAt matches 1);
-                    })
-                    addressType);
+                  type = types.listOf addressTypeCoerced;
                   default = [];
                 };
                 addresses = mkOption {
-                  type = types.listOf (types.coercedTo types.str (addr: let
-                      matches = match "([^/]+)/(.*)" addr;
-                    in {
-                      address = elemAt matches 0;
-                      mask = toInt (elemAt matches 1);
-                    })
-                    addressType);
+                  type = types.listOf addressTypeCoerced;
                   default =
                     map ({
                       address,
                       mask,
+                      type,
                       ...
                     }: {
                       inherit address;
                       mask =
-                        if mask == 32
+                        if type == "v4"
                         then 24
                         else 48;
                     })
@@ -156,11 +161,20 @@ in {
   imports = [];
   config = lib.mkMerge [
     {
-      signal.machines = {
+      signal.machines = let
+        prefix = {
+          v4 = "172.24.86";
+          v6 = "fd24:fad3:8246";
+        };
+        genAddrs = index: [
+          "${prefix.v4}.${toString index}/32"
+          "${prefix.v6}::${toString index}/128"
+        ];
+      in {
         "terra" = {
           wireguard = {
             publicKey = "kFTqdNZD4LieJ+05tsELgTmAmFukny/6fzCHjixbEGc=";
-            allowedIps = ["172.24.86.1/32" "fd24:fad3:8246::1/128"];
+            allowedIps = genAddrs 1;
             endpoint = "home.ashwalker.net:51860";
           };
           nix = {
@@ -178,13 +192,22 @@ in {
         "artemis" = {
           wireguard = {
             publicKey = "32SABdZ763omOzncqti46Zk6nL1vb9zJfDyAyc3TF0U=";
-            allowedIps = ["172.24.86.2/32" "fd24:fad3:8249::2/128"];
+            allowedIps = genAddrs 2;
+            endpoint = "artemis.ashwalker.net:51860";
           };
         };
         "hermes" = {
           wireguard = {
             publicKey = "C59ll7RCY2m4P4LFLS3AA5wZSnSBRXe3qFeBBnthFjU=";
-            allowedIps = ["172.24.86.3/32" "fd24:fad3:8249::3/128"];
+            allowedIps = genAddrs 3;
+            endpoint = "ashwalker.net:51860";
+          };
+        };
+        "melia" = {
+          wireguard = {
+            publicKey = "7qmFYeNS++O3Q+ZvSkjPharQVzYHQR5xHtAezELWE0g=";
+            allowedIps = genAddrs 4;
+            endpoint = "melia.ashwalker.net:51860";
           };
         };
       };
@@ -209,11 +232,6 @@ in {
               ])) [] (attrNames machines);
       };
       networking = {
-        # hosts = foldl' (acc: name:
-        #   acc
-        #   // (
-        #     std.genAttrs (map (addr: addr.address) machines.${name}.wireguard.addresses) (addr: ["${name}.ashwalker.net"])
-        #   )) {} (attrNames machines);
         firewall = {
           trustedInterfaces = ["wg-signal"];
           allowedUDPPorts = [51860];
