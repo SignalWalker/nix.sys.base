@@ -20,11 +20,8 @@ in {
   };
   disabledModules = [];
   imports = [];
-  config = lib.mkMerge [
+  config = lib.mkIf ts.enable (lib.mkMerge [
     {
-      services.tailscale = {
-        enable = true;
-      };
       networking.firewall.checkReversePath = "loose";
       systemd.network = {
         wait-online.ignoredInterfaces = ["tailscale0"];
@@ -42,6 +39,6 @@ in {
       networking.nameservers = ["100.100.100.100"];
       networking.search = [ts.tailnet.name];
     })
-  ];
+  ]);
   meta = {};
 }
