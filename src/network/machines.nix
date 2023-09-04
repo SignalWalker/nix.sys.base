@@ -9,7 +9,7 @@ with builtins; let
   wg = config.signal.network.wireguard;
   wg-signal = wg.networks."wg-signal";
   machines = config.signal.machines;
-  local = machines.${config.networking.hostName} or {};
+  local = machines.${config.signal.machine.signalName} or {};
   addressType = lib.types.submoduleWith {
     modules = [
       ({
@@ -53,6 +53,12 @@ with builtins; let
     addressType;
 in {
   options = with lib; {
+    signal.machine = {
+      signalName = mkOption {
+        type = types.nullOr types.str;
+        default = config.networking.hostName;
+      };
+    };
     signal.machines = mkOption {
       type = types.attrsOf (types.submoduleWith {
         modules = [
@@ -220,7 +226,7 @@ in {
         peers = foldl' (peers: name: let
           mcn = machines.${name};
         in
-          if mcn.fqdn == config.networking.fqdn
+          if name == config.signal.machine.signalName
           then peers
           else
             (peers
