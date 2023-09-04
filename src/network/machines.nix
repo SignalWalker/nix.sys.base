@@ -198,7 +198,7 @@ in {
         };
         "hermes" = {
           wireguard = {
-            publicKey = "C59ll7RCY2m4P4LFLS3AA5wZSnSBRXe3qFeBBnthFjU=";
+            publicKey = "M3JCNlkuuhgYFN1I+JxRgBVRYjokfH+yW2PIbZBArho=";
             allowedIps = genAddrs 3;
             endpoint = "ashwalker.net:51860";
           };
