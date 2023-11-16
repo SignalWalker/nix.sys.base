@@ -28,6 +28,7 @@ in {
         };
       };
     };
+    networking.useNetworkd = true;
     systemd.network = {
       enable = lib.mkDefault true;
       wait-online = {
