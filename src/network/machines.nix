@@ -242,6 +242,11 @@ in {
           trustedInterfaces = ["wg-signal"];
           allowedUDPPorts = [51860];
         };
+        # hosts = let
+        #   machines = config.signal.machines or {};
+        #   toHosts = name: machine: let addrs = machine.wireguard.addresses; in std.genAttrs (map (addr: addr.address) addrs) (addr: ["${name}.ashwalker.net"]);
+        # in
+        #   foldl' (acc: mcn_name: acc // (toHosts mcn_name machines.${mcn_name})) {} (attrNames machines);
       };
       nix = {
         distributedBuilds = true;

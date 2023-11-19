@@ -92,6 +92,10 @@ in {
                   type = types.listOf types.str;
                   default = [];
                 };
+                addPrefixRoute = mkOption {
+                  type = types.bool;
+                  default = true;
+                };
                 dns = mkOption {
                   type = types.listOf types.str;
                   default = [];
@@ -191,7 +195,10 @@ in {
             map (addr: {
               addressConfig = {
                 Address = addr;
-                # AddPrefixRoute = "no";
+                AddPrefixRoute =
+                  if network.addPrefixRoute
+                  then "yes"
+                  else "no";
                 # Scope = "link";
               };
             })
