@@ -176,12 +176,13 @@ in {
           "${prefix.v4}.${toString index}/32"
           "${prefix.v6}::${toString index}/128"
         ];
+        port = toString wg-signal.port;
       in {
         "terra" = {
           wireguard = {
             publicKey = "kFTqdNZD4LieJ+05tsELgTmAmFukny/6fzCHjixbEGc=";
             allowedIps = genAddrs 1;
-            endpoint = "home.ashwalker.net:51860";
+            endpoint = "terra.home:${port}";
           };
           nix = {
             build = {
@@ -199,21 +200,21 @@ in {
           wireguard = {
             publicKey = "32SABdZ763omOzncqti46Zk6nL1vb9zJfDyAyc3TF0U=";
             allowedIps = genAddrs 2;
-            endpoint = "artemis.ashwalker.net:51860";
+            endpoint = "artemis.ashwalker.net:${port}";
           };
         };
         "hermes" = {
           wireguard = {
             publicKey = "M3JCNlkuuhgYFN1I+JxRgBVRYjokfH+yW2PIbZBArho=";
             allowedIps = genAddrs 3;
-            endpoint = "ashwalker.net:51860";
+            endpoint = "ashwalker.net:${port}";
           };
         };
         "melia" = {
           wireguard = {
             publicKey = "7qmFYeNS++O3Q+ZvSkjPharQVzYHQR5xHtAezELWE0g=";
             allowedIps = genAddrs 4;
-            endpoint = "melia.ashwalker.net:51860";
+            endpoint = "melia.ashwalker.net:${port}";
           };
         };
       };
@@ -222,7 +223,7 @@ in {
         port = 51860;
         addresses = map (addr: toString addr) (local.wireguard.addresses or []);
         dns = ["172.24.86.1" "fd24:fad3:8246::1"];
-        domains = map (mcn: "~${mcn}.ashwalker.net") (attrNames machines);
+        domains = ["~home.ashwalker.net"] ++ (map (mcn: "~${mcn}.ashwalker.net") (attrNames machines));
         peers = foldl' (peers: name: let
           mcn = machines.${name};
         in
@@ -240,7 +241,7 @@ in {
       networking = {
         firewall = {
           trustedInterfaces = ["wg-signal"];
-          allowedUDPPorts = [51860];
+          allowedUDPPorts = [wg-signal.port];
         };
         # hosts = let
         #   machines = config.signal.machines or {};
