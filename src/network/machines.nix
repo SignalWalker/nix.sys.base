@@ -182,7 +182,7 @@ in {
           wireguard = {
             publicKey = "kFTqdNZD4LieJ+05tsELgTmAmFukny/6fzCHjixbEGc=";
             allowedIps = genAddrs 1;
-            endpoint = "terra.home:${port}";
+            endpoint = "home.ashwalker.net:${port}";
           };
           nix = {
             build = {
@@ -223,7 +223,11 @@ in {
         port = 51860;
         addresses = map (addr: toString addr) (local.wireguard.addresses or []);
         dns = ["172.24.86.1" "fd24:fad3:8246::1"];
-        domains = ["~home.ashwalker.net"] ++ (map (mcn: "~${mcn}.ashwalker.net") (attrNames machines));
+        domains =
+          [
+            # "~home.ashwalker.net"
+          ]
+          ++ (map (mcn: "~${mcn}.ashwalker.net") (attrNames machines));
         peers = foldl' (peers: name: let
           mcn = machines.${name};
         in
@@ -243,11 +247,6 @@ in {
           trustedInterfaces = ["wg-signal"];
           allowedUDPPorts = [wg-signal.port];
         };
-        # hosts = let
-        #   machines = config.signal.machines or {};
-        #   toHosts = name: machine: let addrs = machine.wireguard.addresses; in std.genAttrs (map (addr: addr.address) addrs) (addr: ["${name}.ashwalker.net"]);
-        # in
-        #   foldl' (acc: mcn_name: acc // (toHosts mcn_name machines.${mcn_name})) {} (attrNames machines);
       };
       nix = {
         distributedBuilds = true;
