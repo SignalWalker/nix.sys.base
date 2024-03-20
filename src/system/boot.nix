@@ -15,7 +15,6 @@ in {
         editor = false;
         memtest86 = {
           enable = config.nixpkgs.config.allowUnfree;
-          entryFilename = "z.memtest86.conf";
         };
       };
       initrd.network = {

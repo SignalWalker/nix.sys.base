@@ -14,11 +14,6 @@ in {
       config = {
         allowUnfree = true;
         allowUnfreePredicate = pkg: true;
-        permittedInsecurePackages = [
-          "python-2.7.18.6" # for aseprite
-          "electron-22.3.27" # for ???
-          "zotero-6.0.27"
-        ];
       };
     };
     nix = {
