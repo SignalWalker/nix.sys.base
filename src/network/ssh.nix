@@ -12,7 +12,7 @@ in {
   config = {
     services.openssh = {
       enable = lib.mkDefault true;
-      openFirewall = true;
+      openFirewall = lib.mkForce false;
       ports = [22];
       settings = {
         PermitRootLogin = "prohibit-password";
