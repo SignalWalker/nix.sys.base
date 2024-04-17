@@ -12,7 +12,7 @@ in {
   config = {
     services.openssh = {
       enable = lib.mkDefault true;
-      openFirewall = lib.mkForce false;
+      openFirewall = lib.mkForce false; # forced to only work over wireguard
       ports = [22];
       settings = {
         PermitRootLogin = "prohibit-password";
