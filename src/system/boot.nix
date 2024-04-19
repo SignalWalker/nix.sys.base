@@ -11,6 +11,10 @@ in {
   imports = [];
   config = {
     boot = {
+      tmp = {
+        cleanOnBoot = true;
+        useTmpfs = true;
+      };
       loader.systemd-boot = {
         editor = false;
         memtest86 = {
