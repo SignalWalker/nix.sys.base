@@ -40,5 +40,12 @@ in {
     hardware.enableRedistributableFirmware = lib.mkDefault true;
 
     system.stateVersion = "22.11";
+
+    systemd.oomd = {
+      enable = true;
+      enableRootSlice = false;
+      enableSystemSlice = true;
+      enableUserSlices = true;
+    };
   };
 }

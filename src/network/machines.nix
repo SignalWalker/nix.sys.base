@@ -254,7 +254,7 @@ in {
           remoteBuilders =
             map (name: machines.${name})
             (filter
-              (name: name != config.networking.hostName && machines.${name}.nix.build.enable)
+              (name: name != config.signal.machine.signalName && machines.${name}.nix.build.enable)
               (attrNames machines));
         in (map (mcn: let
             build = mcn.nix.build;
