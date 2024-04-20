@@ -186,7 +186,7 @@ in {
           };
           nix = {
             build = {
-              enable = lib.mkDefault false;
+              enable = true;
               authorizedKeys = config.users.users.ash.openssh.authorizedKeys.keys;
               fqdn = "terra.ashwalker.net";
               systems = ["x86_64-linux"];
@@ -250,22 +250,37 @@ in {
       };
       nix = {
         distributedBuilds = true;
-        buildMachines = foldl' (peers: name: let
-          mcn = machines.${name};
-          build = mcn.nix.build;
-        in
-          if (mcn.hostName == config.networking.hostName || !build.enable)
-          then peers
-          else
-            (peers
-              ++ [
-                {
-                  hostName = build.fqdn;
-                  protocol = "ssh-ng";
-                  sshUser = build.user;
-                  inherit (build) maxJobs supportedFeatures systems speedFactor sshKey;
-                }
-              ])) [] (attrNames machines);
+        buildMachines = let
+          remoteBuilders =
+            map (name: machines.${name})
+            (filter
+              (name: name != config.networking.hostName && machines.${name}.nix.build.enable)
+              (attrNames machines));
+        in (map (mcn: let
+            build = mcn.nix.build;
+          in {
+            hostName = build.fqdn;
+            protocol = "ssh-ng";
+            sshUser = build.user;
+            inherit (build) maxJobs supportedFeatures systems speedFactor sshKey;
+          })
+          remoteBuilders);
+        # buildMachines = foldl' (peers: name: let
+        #   mcn = machines.${name};
+        #   build = mcn.nix.build;
+        # in
+        #   if (mcn.hostName == config.networking.hostName || !build.enable)
+        #   then peers
+        #   else
+        #     (peers
+        #       ++ [
+        #         {
+        #           hostName = build.fqdn;
+        #           protocol = "ssh-ng";
+        #           sshUser = build.user;
+        #           inherit (build) maxJobs supportedFeatures systems speedFactor sshKey;
+        #         }
+        #       ])) [] (attrNames machines);
       };
     }
     # if this is a build machine

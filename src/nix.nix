@@ -19,9 +19,13 @@ in {
       };
       nix = {
         enable = true;
-        gc.automatic = lib.mkDefault true;
-        gc.dates = "weekly";
-        optimise.automatic = true;
+        gc = {
+          automatic = lib.mkDefault true;
+          dates = "weekly";
+        };
+        optimise = {
+          automatic = true;
+        };
         settings = {
           auto-optimise-store = true;
           allowed-users = ["@wheel"];
