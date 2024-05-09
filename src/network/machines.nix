@@ -126,7 +126,6 @@ in {
                   enable = mkEnableOption "serve nix store from this device";
                   authorizedKeys = mkOption {
                     type = types.listOf types.singleLineStr;
-                    default = config.users.users.ash.openssh.authorizedKeys.keys;
                   };
                   protocol = mkOption {
                     type = types.enum ["ssh" "ssh-ng"];
@@ -212,6 +211,7 @@ in {
               enable = true;
               fqdn = "terra.ashwalker.net";
               publicKey = "terra.ashwalker.net-1:36mAK7UNh8BAy5LkvMCtzbWpdfkvmPP6W/PhaidB6bY=";
+              authorizedKeys = config.users.users.ash.openssh.authorizedKeys.keys;
             };
             build = {
               enable = true;
