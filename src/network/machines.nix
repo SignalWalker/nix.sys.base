@@ -9,6 +9,11 @@ with builtins; let
   wg = config.signal.network.wireguard;
   wg-signal = wg.networks."wg-signal";
   machines = config.signal.machines;
+
+  remoteMachines = map (name: machines.${name}) (filter
+    (name: name != config.signal.machine.signalName)
+    (attrNames machines));
+
   local = machines.${config.signal.machine.signalName} or {};
   addressType = lib.types.submoduleWith {
     modules = [
@@ -117,6 +122,24 @@ in {
                 };
               };
               nix = {
+                serve = {
+                  enable = mkEnableOption "serve nix store from this device";
+                  authorizedKeys = mkOption {
+                    type = types.listOf types.singleLineStr;
+                    default = config.users.users.ash.openssh.authorizedKeys.keys;
+                  };
+                  protocol = mkOption {
+                    type = types.enum ["ssh" "ssh-ng"];
+                    default = "ssh-ng";
+                  };
+                  publicKey = mkOption {
+                    type = types.str;
+                  };
+                  fqdn = mkOption {
+                    type = types.str;
+                    default = config.fqdn;
+                  };
+                };
                 build = {
                   enable = mkEnableOption "remote builds on this device";
                   user = mkOption {
@@ -185,6 +208,11 @@ in {
             endpoint = "home.ashwalker.net:${port}";
           };
           nix = {
+            serve = {
+              enable = true;
+              fqdn = "terra.ashwalker.net";
+              publicKey = "terra.ashwalker.net-1:36mAK7UNh8BAy5LkvMCtzbWpdfkvmPP6W/PhaidB6bY=";
+            };
             build = {
               enable = true;
               authorizedKeys = config.users.users.ash.openssh.authorizedKeys.keys;
@@ -201,6 +229,9 @@ in {
             publicKey = "32SABdZ763omOzncqti46Zk6nL1vb9zJfDyAyc3TF0U=";
             allowedIps = genAddrs 2;
             endpoint = "artemis.ashwalker.net:${port}";
+          };
+          nix = {
+            # serve.enable = true;
           };
         };
         "hermes" = {
@@ -248,40 +279,34 @@ in {
           allowedUDPPorts = [wg-signal.port];
         };
       };
-      nix = {
-        distributedBuilds = true;
-        buildMachines = let
-          remoteBuilders =
-            map (name: machines.${name})
-            (filter
-              (name: name != config.signal.machine.signalName && machines.${name}.nix.build.enable)
-              (attrNames machines));
-        in (map (mcn: let
-            build = mcn.nix.build;
-          in {
-            hostName = build.fqdn;
-            protocol = "ssh-ng";
-            sshUser = build.user;
-            inherit (build) maxJobs supportedFeatures systems speedFactor sshKey;
-          })
-          remoteBuilders);
-        # buildMachines = foldl' (peers: name: let
-        #   mcn = machines.${name};
-        #   build = mcn.nix.build;
-        # in
-        #   if (mcn.hostName == config.networking.hostName || !build.enable)
-        #   then peers
-        #   else
-        #     (peers
-        #       ++ [
-        #         {
-        #           hostName = build.fqdn;
-        #           protocol = "ssh-ng";
-        #           sshUser = build.user;
-        #           inherit (build) maxJobs supportedFeatures systems speedFactor sshKey;
-        #         }
-        #       ])) [] (attrNames machines);
-      };
+      nix = foldl' (acc: remote: let
+        build = remote.nix.build;
+        serve = remote.nix.serve;
+
+        res =
+          if build.enable
+          then {
+            distributedBuilds = true;
+            buildMachines = [
+              {
+                hostName = build.fqdn;
+                protocol = "ssh-ng";
+                sshUser = build.user;
+                inherit (build) maxJobs supportedFeatures systems speedFactor sshKey;
+              }
+            ];
+            settings =
+              if serve.enable
+              then {
+                substituters = (acc.settings.substituters or []) ++ ["${serve.protocol}://${serve.fqdn}"];
+                trusted-public-keys = (acc.settings.trusted-public-keys or []) ++ [serve.publicKey];
+              }
+              else {};
+          }
+          else {};
+      in
+        std.recursiveUpdate acc res) {}
+      remoteMachines;
     }
     # if this is a build machine
     (lib.mkIf (local.nix.build.enable or false) (let
@@ -299,6 +324,15 @@ in {
       };
       users.groups.${build.group} = {};
       nix.settings.trusted-users = [build.user];
+    }))
+    (lib.mkIf (local.nix.serve.enable or false) (let
+      serve = local.nix.serve;
+    in {
+      nix.sshServe = {
+        enable = true;
+        keys = serve.authorizedKeys;
+        protocol = "ssh-ng";
+      };
     }))
   ];
   meta = {};
