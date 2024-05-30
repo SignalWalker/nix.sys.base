@@ -199,6 +199,13 @@ in {
           "${prefix.v6}::${toString index}/128"
         ];
         port = toString wg-signal.port;
+
+        nixPubKeys =
+          config.users.users.ash.openssh.authorizedKeys.keys
+          ++ [
+            # hermes
+            "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMXpbIhM+om7k2fjbyFAaMlnhRRbTlgIsTe+XkCTvJT6 ash@ashwalker"
+          ];
       in {
         "terra" = {
           wireguard = {
@@ -211,11 +218,11 @@ in {
               enable = true;
               fqdn = "terra.ashwalker.net";
               publicKey = "terra.ashwalker.net-1:36mAK7UNh8BAy5LkvMCtzbWpdfkvmPP6W/PhaidB6bY=";
-              authorizedKeys = config.users.users.ash.openssh.authorizedKeys.keys;
+              authorizedKeys = nixPubKeys;
             };
             build = {
               enable = true;
-              authorizedKeys = config.users.users.ash.openssh.authorizedKeys.keys;
+              authorizedKeys = nixPubKeys;
               fqdn = "terra.ashwalker.net";
               systems = ["x86_64-linux"];
               supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "uid-range" "kvm" "ca-derivations"];
@@ -331,7 +338,8 @@ in {
       nix.sshServe = {
         enable = true;
         keys = serve.authorizedKeys;
-        protocol = "ssh-ng";
+        protocol = serve.protocol;
+        write = true;
       };
     }))
   ];

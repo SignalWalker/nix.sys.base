@@ -68,21 +68,9 @@ in {
       };
     };
 
-    # systemd.timers."nix-wipe-history" = {
-    #   wantedBy = ["timers.target"];
-    #   timerConfig = {
-    #     OnCalendar = "daily";
-    #     Persistent = true;
-    #     RandomizedDelaySec = "1h";
-    #     Unit = "nix-wipe-history.service";
-    #   };
-    # };
-
     systemd.services."nix-wipe-history" = {
-      script = ''
-        set -eu
-        ${config.nix.package}/bin/nix profile wipe-history --profile /nix/var/nix/profiles/system --older-than 7d
-      '';
+      description = "wipe nix profile generations older than 7 days";
+      script = "${nix.package}/bin/nix profile wipe-history --profile /nix/var/nix/profiles/system --older-than 7d";
       wantedBy = ["nix-gc.service"];
       before = ["nix-gc.service"];
       serviceConfig = {
