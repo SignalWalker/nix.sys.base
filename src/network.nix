@@ -52,14 +52,10 @@ in {
         };
         routes = lib.mkDefault [
           {
-            routeConfig = {
-              Gateway = "_dhcp4";
-            };
+            Gateway = "_dhcp4";
           }
           {
-            routeConfig = {
-              Gateway = "_ipv6ra";
-            };
+            Gateway = "_ipv6ra";
           }
         ];
       };
@@ -87,14 +83,10 @@ in {
         };
         routes = lib.mkDefault [
           {
-            routeConfig = {
-              Gateway = "_dhcp4";
-            };
+            Gateway = "_dhcp4";
           }
           {
-            routeConfig = {
-              Gateway = "_ipv6ra";
-            };
+            Gateway = "_ipv6ra";
           }
         ];
       };

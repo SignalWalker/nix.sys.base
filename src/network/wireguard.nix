@@ -148,8 +148,7 @@ in {
             })
           ];
           wireguardPeers =
-            map (peer: {
-              wireguardPeerConfig = lib.mkMerge [
+            map (peer: lib.mkMerge [
                 {
                   PublicKey = peer.publicKey;
                   AllowedIPs = peer.allowedIps;
@@ -167,8 +166,7 @@ in {
                 (lib.mkIf (peer.routeMetric != null) {
                   RouteMetric = peer.routeMetric;
                 })
-              ];
-            })
+              ])
             network.peers;
         }
         network.extraNetdevConfig
@@ -193,14 +191,12 @@ in {
           dns = network.dns;
           addresses =
             map (addr: {
-              addressConfig = {
                 Address = addr;
                 AddPrefixRoute =
                   if network.addPrefixRoute
                   then "yes"
                   else "no";
                 # Scope = "link";
-              };
             })
             network.addresses;
         }
