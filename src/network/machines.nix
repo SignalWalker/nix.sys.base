@@ -138,6 +138,14 @@ in {
                     type = types.str;
                     default = config.fqdn;
                   };
+                  priority = mkOption {
+                    type = types.int;
+                    default = 0;
+                  };
+                  extraOptions = mkOption {
+                    type = types.attrsOf types.str;
+                    default = [];
+                  };
                 };
                 build = {
                   enable = mkEnableOption "remote builds on this device";
@@ -219,6 +227,10 @@ in {
               fqdn = "terra.ashwalker.net";
               publicKey = "terra.ashwalker.net-1:36mAK7UNh8BAy5LkvMCtzbWpdfkvmPP6W/PhaidB6bY=";
               authorizedKeys = nixPubKeys;
+              priority = 0;
+              extraOptions = {
+                "max-connections" = toString 8;
+              };
             };
             build = {
               enable = true;
@@ -293,7 +305,7 @@ in {
         res =
           if build.enable
           then {
-            distributedBuilds = true;
+            distributedBuilds = false; # FIX :: this is usually too slow to be worth it
             buildMachines = [
               {
                 hostName = build.fqdn;
@@ -304,8 +316,14 @@ in {
             ];
             settings =
               if serve.enable
-              then {
-                substituters = (acc.settings.substituters or []) ++ ["${serve.protocol}://${serve.fqdn}"];
+              then let
+                opts = serve.extraOptions // {inherit (serve) priority;};
+              in {
+                substituters =
+                  (acc.settings.substituters or [])
+                  ++ [
+                    "${serve.protocol}://${serve.fqdn}" # + "?" + (std.concatStringsSep "&" (map (name: "${name}=${toString opts.${name}}") (attrNames opts))))
+                  ];
                 trusted-public-keys = (acc.settings.trusted-public-keys or []) ++ [serve.publicKey];
               }
               else {};
