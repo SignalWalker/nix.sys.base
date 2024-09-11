@@ -128,7 +128,7 @@ in {
                     type = types.listOf types.singleLineStr;
                   };
                   protocol = mkOption {
-                    type = types.enum ["ssh" "ssh-ng"];
+                    type = types.enum ["ssh" "ssh-ng" "http" "https"];
                     default = "ssh-ng";
                   };
                   publicKey = mkOption {
@@ -224,7 +224,8 @@ in {
           nix = {
             serve = {
               enable = true;
-              fqdn = "terra.ashwalker.net";
+              protocol = "http";
+              fqdn = "nix-cache.terra.ashwalker.net";
               publicKey = "terra.ashwalker.net-1:36mAK7UNh8BAy5LkvMCtzbWpdfkvmPP6W/PhaidB6bY=";
               authorizedKeys = nixPubKeys;
               priority = 0;
@@ -353,7 +354,7 @@ in {
     (lib.mkIf (local.nix.serve.enable or false) (let
       serve = local.nix.serve;
     in {
-      nix.sshServe = {
+      nix.sshServe = lib.mkIf (serve.protocol == "ssh" || serve.protocol == "ssh-ng") {
         enable = true;
         keys = serve.authorizedKeys;
         protocol = serve.protocol;
