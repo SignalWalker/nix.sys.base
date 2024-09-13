@@ -248,7 +248,7 @@ in {
           wireguard = {
             publicKey = "32SABdZ763omOzncqti46Zk6nL1vb9zJfDyAyc3TF0U=";
             allowedIps = genAddrs 2;
-            endpoint = "artemis.ashwalker.net:${port}";
+            # endpoint = "artemis.ashwalker.net:${port}";
           };
           nix = {
             # serve.enable = true;
@@ -265,7 +265,7 @@ in {
           wireguard = {
             publicKey = "7qmFYeNS++O3Q+ZvSkjPharQVzYHQR5xHtAezELWE0g=";
             allowedIps = genAddrs 4;
-            endpoint = "melia.ashwalker.net:${port}";
+            # endpoint = "melia.ashwalker.net:${port}";
           };
         };
       };
