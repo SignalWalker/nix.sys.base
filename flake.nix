@@ -10,6 +10,9 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nginx-vhost-defaults = {
+      url = "github:SignalWalker/nix.nginx.vhost-defaults";
+    };
   };
   outputs = inputs @ {
     self,
@@ -23,6 +26,7 @@
       nixosModules.default = {...}: {
         imports = [
           inputs.home-manager.nixosModules.default
+          inputs.nginx-vhost-defaults.nixosModules.default
           # inputs.kmonad.nixosModules.default
           ./nixos-module.nix
         ];
