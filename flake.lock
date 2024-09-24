@@ -161,11 +161,11 @@
         "alejandra": "alejandra_2"
       },
       "locked": {
-        "lastModified": 1727204089,
-        "narHash": "sha256-50lv53pg1WppldTrNg2fHWS1OgzrnN6mJ7MA1RDLads=",
+        "lastModified": 1727207041,
+        "narHash": "sha256-umWHiUnB7x7itxm6WULIHVr2C/pfIgWK2T3IvXallSo=",
         "owner": "SignalWalker",
         "repo": "nix.nginx.vhost-defaults",
-        "rev": "e7e624a57b95024c5a145f29b496c4bba47da343",
+        "rev": "8ebcb9f986691d55073294a35d36aa57619c2440",
         "type": "github"
       },
       "original": {
