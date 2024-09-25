@@ -34,6 +34,7 @@ in {
             "SummalyBot" # fuck you
             "CensysInspect"
             "AhrefsBot" # doesn't seem to respect robots.txt
+            "aiHitBot" # fuck you
           ];
         };
         extraConfig = ''
