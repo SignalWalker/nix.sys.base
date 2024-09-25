@@ -10,6 +10,10 @@ with builtins; let
   isLocal = config.networking.domain == "local";
 in {
   options = with lib; {
+    networking.publicAddresses = mkOption {
+      type = types.listOf types.str;
+      default = [];
+    };
   };
   imports = lib.signal.fs.path.listFilePaths ./network;
   config = {
