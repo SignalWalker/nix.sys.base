@@ -23,16 +23,17 @@ in {
         blockAgents = {
           enable = lib.mkDefault true;
           agents = lib.mkOptionDefault [
-            "SemrushBot"
+            "SemrushBot" # fuuuuuuuuck you
             "facebookexternalhit"
             "facebookcatalog"
             "meta-externalagent"
             "meta-externalfetcher"
             "DotBot"
-            "Inspici"
-            "paloaltonetworks.com"
-            "SummalyBot"
+            "Inspici" # fuck you
+            "paloaltonetworks.com" # fuck you
+            "SummalyBot" # fuck you
             "CensysInspect"
+            "AhrefsBot" # doesn't seem to respect robots.txt
           ];
         };
         extraConfig = ''
