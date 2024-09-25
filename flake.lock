@@ -142,11 +142,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1727111745,
-        "narHash": "sha256-EYLvFRoTPWtD+3uDg2wwQvlz88OrIr3zld+jFE5gDcY=",
+        "lastModified": 1727246346,
+        "narHash": "sha256-TcUaKtya339Asu+g6KTJ8h7KiKcKXKp2V+At+7tksyY=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "21c021862fa696c8199934e2153214ab57150cb6",
+        "rev": "1e22ef1518fb175d762006f9cae7f6312b8caedb",
         "type": "github"
       },
       "original": {
@@ -161,11 +161,11 @@
         "alejandra": "alejandra_2"
       },
       "locked": {
-        "lastModified": 1727207041,
-        "narHash": "sha256-umWHiUnB7x7itxm6WULIHVr2C/pfIgWK2T3IvXallSo=",
+        "lastModified": 1727209251,
+        "narHash": "sha256-rKSvWlit4xZFntxYDbHff1rwQd19raIzM70AuVbQXNU=",
         "owner": "SignalWalker",
         "repo": "nix.nginx.vhost-defaults",
-        "rev": "8ebcb9f986691d55073294a35d36aa57619c2440",
+        "rev": "e6ec615da198f53bdf0177deba8e28b65c960f90",
         "type": "github"
       },
       "original": {
