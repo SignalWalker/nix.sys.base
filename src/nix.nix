@@ -22,6 +22,7 @@ in {
       gc = {
         automatic = lib.mkDefault true;
         dates = "weekly";
+        options = "--delete-older-than 7d";
       };
       optimise = {
         automatic = true;
@@ -65,17 +66,6 @@ in {
           "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
           "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
         ];
-      };
-    };
-
-    systemd.services."nix-wipe-history" = {
-      description = "wipe nix profile generations older than 7 days";
-      script = "${nix.package}/bin/nix profile wipe-history --profile /nix/var/nix/profiles/system --older-than 7d";
-      wantedBy = ["nix-gc.service"];
-      before = ["nix-gc.service"];
-      serviceConfig = {
-        Type = "oneshot";
-        User = "root";
       };
     };
   };
