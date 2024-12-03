@@ -6,7 +6,7 @@
 }:
 with builtins; let
   std = pkgs.lib;
-  wg = config.signal.network.wireguard;
+  wg = config.networking.wireguard;
   wg-signal = wg.networks."wg-signal";
   machines = config.signal.machines;
 
@@ -206,7 +206,7 @@ in {
           "${prefix.v4}.${toString index}/32"
           "${prefix.v6}::${toString index}/128"
         ];
-        port = toString wg-signal.port;
+        port = toString wg-signal.netdev.port;
 
         nixPubKeys =
           config.users.users.ash.openssh.authorizedKeys.keys
@@ -269,16 +269,21 @@ in {
           };
         };
       };
-      signal.network.wireguard.networks."wg-signal" = {
+      networking.wireguard.networks."wg-signal" = {
         enable = wg-signal ? privateKeyFile;
-        port = 51860;
-        addresses = map (addr: toString addr) (local.wireguard.addresses or []);
-        dns = ["172.24.86.1" "fd24:fad3:8246::1"];
-        domains =
-          [
-            # "~home.ashwalker.net"
-          ]
-          ++ (map (mcn: "~${mcn}.ashwalker.net") (attrNames machines));
+        netdev = {
+          port = 51860;
+          openFirewall = true;
+        };
+        network = {
+          addresses = map (addr: toString addr) (local.wireguard.addresses or []);
+          dns = ["172.24.86.1" "fd24:fad3:8246::1"];
+          domains =
+            [
+              # "~home.ashwalker.net"
+            ]
+            ++ (map (mcn: "~${mcn}.ashwalker.net") (attrNames machines));
+        };
         peers = foldl' (peers: name: let
           mcn = machines.${name};
         in
@@ -293,12 +298,7 @@ in {
                 }
               ])) [] (attrNames machines);
       };
-      networking = {
-        firewall = {
-          trustedInterfaces = ["wg-signal"];
-          allowedUDPPorts = [wg-signal.port];
-        };
-      };
+      networking.firewall.trustedInterfaces = ["wg-signal"];
       nix = foldl' (acc: remote: let
         build = remote.nix.build;
         serve = remote.nix.serve;

@@ -13,6 +13,9 @@
     nginx-vhost-defaults = {
       url = "github:SignalWalker/nix.nginx.vhost-defaults";
     };
+    wireguard-networks = {
+      url = "github:SignalWalker/nix.net.wireguard";
+    };
   };
   outputs = inputs @ {
     self,
@@ -27,6 +30,7 @@
         imports = [
           inputs.home-manager.nixosModules.default
           inputs.nginx-vhost-defaults.nixosModules.default
+          inputs.wireguard-networks.nixosModules.default
           # inputs.kmonad.nixosModules.default
           ./nixos-module.nix
         ];
