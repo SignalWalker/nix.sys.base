@@ -64,6 +64,11 @@ in {
         default = config.networking.hostName;
       };
     };
+    signal.remoteMachines = mkOption {
+      type = types.listOf types.anything;
+      readOnly = true;
+      default = remoteMachines;
+    };
     signal.machines = mkOption {
       type = types.attrsOf (types.submoduleWith {
         modules = [
