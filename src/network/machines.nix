@@ -268,7 +268,7 @@ in {
         };
         "melia" = {
           wireguard = {
-            publicKey = "7qmFYeNS++O3Q+ZvSkjPharQVzYHQR5xHtAezELWE0g=";
+            publicKey = "SV0jYWwuDPrpladkUhATrqbB7Y4585ZABo0YM/fKvDQ=";
             allowedIps = genAddrs 4;
             # endpoint = "melia.ashwalker.net:${port}";
           };
