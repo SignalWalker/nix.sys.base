@@ -266,13 +266,13 @@ in {
             endpoint = "ashwalker.net:${port}";
           };
         };
-        "melia" = {
-          wireguard = {
-            publicKey = "SV0jYWwuDPrpladkUhATrqbB7Y4585ZABo0YM/fKvDQ=";
-            allowedIps = genAddrs 4;
-            # endpoint = "melia.ashwalker.net:${port}";
-          };
-        };
+        # "melia" = {
+        #   wireguard = {
+        #     publicKey = "SV0jYWwuDPrpladkUhATrqbB7Y4585ZABo0YM/fKvDQ=";
+        #     allowedIps = genAddrs 4;
+        #     # endpoint = "melia.ashwalker.net:${port}";
+        #   };
+        # };
       };
       networking.wireguard.networks."wg-signal" = {
         enable = wg-signal ? privateKeyFile;
