@@ -4,15 +4,17 @@
   lib,
   ...
 }:
-with builtins; let
+with builtins;
+let
   std = pkgs.lib;
   networks = config.systemd.network.networks;
   isLocal = config.networking.domain == "local";
-in {
+in
+{
   options = with lib; {
     networking.publicAddresses = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
     };
   };
   imports = lib.signal.fs.path.listFilePaths ./network;
@@ -44,14 +46,10 @@ in {
           Type = "ether";
           Name = "enp*";
         };
-        linkConfig = {};
+        linkConfig = { };
         networkConfig = {
           DHCP = lib.mkDefault "yes";
-          MulticastDNS = lib.mkDefault (
-            if isLocal
-            then "yes"
-            else "no"
-          );
+          MulticastDNS = lib.mkDefault (if isLocal then "yes" else "no");
           LLMNR = lib.mkDefault "no";
         };
         routes = lib.mkDefault [
@@ -64,24 +62,16 @@ in {
         ];
       };
       networks."wlan" = {
-        enable = true;
+        enable = lib.mkDefault true;
         matchConfig = {
           Type = "wlan";
         };
         linkConfig = {
-          Unmanaged = lib.mkDefault (
-            if config.networking.networkmanager.enable
-            then "yes"
-            else "no"
-          );
+          Unmanaged = lib.mkDefault (if config.networking.networkmanager.enable then "yes" else "no");
         };
         networkConfig = {
           DHCP = lib.mkDefault "yes";
-          MulticastDNS = lib.mkDefault (
-            if isLocal
-            then "yes"
-            else "no"
-          );
+          MulticastDNS = lib.mkDefault (if isLocal then "yes" else "no");
           LLMNR = lib.mkDefault "no";
           IgnoreCarrierLoss = "3s";
         };
