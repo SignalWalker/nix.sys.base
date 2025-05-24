@@ -4,12 +4,14 @@
   lib,
   ...
 }:
-with builtins; let
+with builtins;
+let
   std = pkgs.lib;
   nix = config.nix;
-in {
-  options = with lib; {};
-  imports = [];
+in
+{
+  options = with lib; { };
+  imports = [ ];
   config = {
     nixpkgs = {
       config = {
@@ -29,13 +31,16 @@ in {
       };
       settings = {
         auto-optimise-store = true;
-        allowed-users = ["@wheel"];
-        trusted-users = ["root" "@wheel"] ++ (std.optional config.nix.sshServe.write "nix-ssh");
+        allowed-users = [ "@wheel" ];
+        trusted-users = [
+          "root"
+          "@wheel"
+        ] ++ (std.optional config.nix.sshServe.write "nix-ssh");
         experimental-features =
           [
             "nix-command"
             "flakes"
-            "ca-derivations"
+            # "ca-derivations"
             "fetch-closure"
             "auto-allocate-uids"
             "cgroups"
