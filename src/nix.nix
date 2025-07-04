@@ -54,8 +54,8 @@ in
         cores = 0;
         substitute = true;
         download-attempts = 12;
-        auto-allocate-uids = true;
-        use-cgroups = true;
+        auto-allocate-uids = false;
+        use-cgroups = false;
         use-xdg-base-directories = true;
         substituters = [
           "https://cache.nixos.org"
