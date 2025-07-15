@@ -17,7 +17,7 @@ in
       default = [ ];
     };
   };
-  imports = lib.signal.fs.path.listFilePaths ./network;
+  imports = lib.listFilePaths ./network;
   config = {
     networking.nftables = {
       enable = true;
