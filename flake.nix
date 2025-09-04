@@ -12,6 +12,10 @@
     wireguard-networks = {
       url = "github:SignalWalker/nix.net.wireguard";
     };
+    # nix-mineral = {
+    #   url = "github:cynicsketch/nix-mineral";
+    #   flake = false;
+    # };
   };
   outputs =
     inputs@{
@@ -47,6 +51,7 @@
             inputs.nginx-vhost-defaults.nixosModules.default
             inputs.wireguard-networks.nixosModules.default
             # inputs.kmonad.nixosModules.default
+            # "${inputs.nix-mineral}/nix-mineral.nix"
             ./nixos-module.nix
           ];
           config = {
