@@ -1,17 +1,15 @@
 {
+  inputs,
   config,
   pkgs,
   lib,
   ...
 }:
-with builtins;
 let
   std = pkgs.lib;
   nix = config.nix;
 in
 {
-  options = with lib; { };
-  imports = [ ];
   config = {
     nixpkgs = {
       config = {
@@ -29,6 +27,9 @@ in
       optimise = {
         automatic = true;
       };
+      nixPath = [
+        "nixpkgs=${inputs.nixpkgs}"
+      ];
       settings = {
         auto-optimise-store = true;
         allowed-users = [ "@wheel" ];
@@ -64,12 +65,16 @@ in
           "https://nixpkgs-wayland.cachix.org"
           # "https://cache.lix.systems"
         ];
+        trusted-substituters = [
+          "ssh-ng://terra.ashwalker.net"
+        ];
         trusted-public-keys = [
           "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
           # "cache.ngi0.nixos.org-1:KqH5CBLNSyX184S9BKZJo1LxrxJ9ltnY2uAs5c/f1MA="
           "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
           "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
           # "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
+          config.signal.machines."terra".nix.serve.publicKey
         ];
 
         min-free = 1024 * 1024 * 1024 * 2;

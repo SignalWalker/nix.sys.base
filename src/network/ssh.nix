@@ -1,16 +1,8 @@
 {
-  config,
-  pkgs,
   lib,
   ...
 }:
-with builtins;
-let
-  std = pkgs.lib;
-in
 {
-  options = with lib; { };
-  imports = [ ];
   config = {
     services.openssh = {
       enable = lib.mkDefault true;
@@ -20,7 +12,8 @@ in
         PermitRootLogin = "prohibit-password";
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
-        UsePAM = false;
+        # required for things like XDG_RUNTIME_DIR
+        UsePAM = true;
       };
     };
   };

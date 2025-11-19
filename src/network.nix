@@ -1,19 +1,15 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }:
-with builtins;
 let
-  std = pkgs.lib;
-  networks = config.systemd.network.networks;
   isLocal = config.networking.domain == "local";
 in
 {
-  options = with lib; {
-    networking.publicAddresses = mkOption {
-      type = types.listOf types.str;
+  options = {
+    networking.publicAddresses = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
       default = [ ];
     };
   };
@@ -21,6 +17,16 @@ in
   config = {
     networking.nftables = {
       enable = true;
+    };
+    networking.networkmanager = {
+      wifi = {
+        backend = "iwd";
+      };
+      unmanaged = [
+        "wg-signal"
+        "wg-airvpn"
+        "wg-torrent"
+      ];
     };
     networking.wireless.iwd = {
       enable = lib.mkDefault true;

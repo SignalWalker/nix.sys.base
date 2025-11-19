@@ -19,11 +19,9 @@
   };
   outputs =
     inputs@{
-      self,
       nixpkgs,
       ...
     }:
-    with builtins;
     let
       std = nixpkgs.lib;
       systems = [

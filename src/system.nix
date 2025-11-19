@@ -4,21 +4,24 @@
   lib,
   ...
 }:
-with builtins; let
-  std = pkgs.lib;
-in {
-  options = with lib; {};
+{
   imports = lib.listFilePaths ./system;
   config = {
-    environment.systemPackages = with pkgs; [
-      neovim
-      wget
-      git
-      parted
-      usbutils
-      pciutils
-      lshw
-      dmidecode
+    environment.systemPackages = [
+      # basic utilities
+      pkgs.neovim
+      pkgs.wget
+      pkgs.git
+      # filesystem
+      pkgs.parted
+      # hardware info
+      pkgs.usbutils
+      pkgs.pciutils
+      pkgs.lshw
+      pkgs.dmidecode
+      # debugging
+      pkgs.strace
+      pkgs.lsof
     ];
 
     programs.zsh = {

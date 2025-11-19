@@ -1,27 +1,33 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }:
-with builtins; let
-  std = pkgs.lib;
+with builtins;
+let
   resolved = config.services.resolved;
-in {
+in
+{
   options = with lib; {
     services.resolved = {
       dns = mkOption {
         type = types.listOf types.str;
-        default = config.networking.nameservers ++ ["9.9.9.9" "2620:fe::9"];
+        default = config.networking.nameservers ++ [
+          "9.9.9.9"
+          "2620:fe::9"
+        ];
       };
       multicastDns = mkEnableOption "MulticastDNS support";
     };
   };
-  imports = [];
+  imports = [ ];
   config = {
+    networking.networkmanager = {
+      dns = "systemd-resolved";
+    };
     services.resolved = {
       enable = true;
-      domains = config.networking.search ++ ["~."];
+      domains = config.networking.search ++ [ "~." ];
       multicastDns = lib.mkDefault (config.networking.domain == "local");
       llmnr = lib.mkDefault "false";
       fallbackDns = [
@@ -30,15 +36,14 @@ in {
         "149.112.112.112"
         "2620:fe::fe"
       ];
-      extraConfig = let
-        mdns =
-          if resolved.multicastDns
-          then "yes"
-          else "no";
-      in ''
-        DNS=${toString resolved.dns}
-        MulticastDNS=${mdns}
-      '';
+      extraConfig =
+        let
+          mdns = if resolved.multicastDns then "yes" else "no";
+        in
+        ''
+          DNS=${toString resolved.dns}
+          MulticastDNS=${mdns}
+        '';
     };
   };
 }
