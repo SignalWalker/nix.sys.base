@@ -6,6 +6,11 @@
 }:
 {
   config = {
+
+    # systemd.sysusers = {
+    #   enable = true;
+    # };
+
     users = {
       mutableUsers = true;
       users.root.openssh.authorizedKeys.keys = config.users.users.ash.openssh.authorizedKeys.keys;

@@ -1,12 +1,10 @@
 {
   inputs,
   config,
-  pkgs,
   lib,
   ...
 }:
 let
-  std = pkgs.lib;
   nix = config.nix;
 in
 {
@@ -37,16 +35,15 @@ in
           "root"
           "@wheel"
         ]
-        ++ (std.optional config.nix.sshServe.write "nix-ssh");
+        ++ (lib.optional config.nix.sshServe.write "nix-ssh");
         experimental-features = [
           "nix-command"
           "flakes"
           # "ca-derivations"
-          "fetch-closure"
           "auto-allocate-uids"
           "cgroups"
         ]
-        ++ (std.optionals (nix.package.version < "2.19") [
+        ++ (lib.optionals (nix.package.version < "2.19") [
           "repl-flake"
         ]);
         builders-use-substitutes = true;

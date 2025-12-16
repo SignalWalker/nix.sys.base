@@ -1,23 +1,23 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }:
-with builtins; let
-  std = pkgs.lib;
-in {
-  options = with lib; {};
-  imports = [];
-  config = {
-    boot.supportedFilesystems = ["zfs"];
+let
+  zfs = config.zfs-root;
+in
+{
+  config = lib.mkIf zfs.boot.enable {
+    boot.supportedFilesystems = [
+      "zfs"
+    ];
     # nixpkgs.config.packageOverrides = pkgs: {
     #   zfs = config.boot.kernelPackages.zfs;
     #   zfsStable = config.boot.kernelPackages.zfsStable;
     #   zfsUnstable = config.boot.kernelPackages.zfsUnstable;
     # };
     boot.zfs = {
-      forceImportRoot = false;
+      forceImportRoot = false; # TODO :: why
       # package = if config.boot.zfs.enableUnstable then config.boot.kernelPackages.zfsUnstable else config.boot.kernelPackages.zfs;
       # enableUnstable = true;
     };
