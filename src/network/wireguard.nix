@@ -3,8 +3,8 @@
   pkgs,
   ...
 }:
-with builtins;
 let
+  inherit (builtins) head map;
   peers = config.signal.remoteMachines;
 in
 {

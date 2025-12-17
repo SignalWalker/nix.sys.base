@@ -4,11 +4,8 @@
   lib,
   ...
 }:
-with builtins; let
-  std = pkgs.lib;
-  namespaces = config.signal.network.namespaces;
-in {
-  options = with lib; {
+{
+  options = {
     # signal.network.namespaces = mkOption {
     #   type = types.attrsOf (types.submoduleWith {
     #     modules = [
@@ -55,8 +52,8 @@ in {
     #   });
     # };
   };
-  disabledModules = [];
-  imports = [];
+  disabledModules = [ ];
+  imports = [ ];
   # config = lib.mkMerge ([
   #     {
   #       # from https://mth.st/blog/nixos-wireguard-netns/
@@ -106,5 +103,5 @@ in {
   #       };
   #     };
   #   })) (attrNames namespaces)));
-  meta = {};
+  meta = { };
 }

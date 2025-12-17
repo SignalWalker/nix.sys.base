@@ -1,15 +1,8 @@
 {
-  config,
-  pkgs,
   lib,
   ...
 }:
-with builtins; let
-  std = pkgs.lib;
-in {
-  options = with lib; {};
-  disabledModules = [];
-  imports = [];
+{
   config = {
     # systemd.services."nginx-generate-selfsigned-key" = {
     #   description = "Generate a self-signed SSL key";
@@ -115,5 +108,5 @@ in {
       # };
     };
   };
-  meta = {};
+  meta = { };
 }

@@ -3,23 +3,27 @@
   lib,
   ...
 }:
-with builtins;
 let
+  inherit (builtins) toString;
   resolved = config.services.resolved;
 in
 {
-  options = with lib; {
-    services.resolved = {
-      dns = mkOption {
-        type = types.listOf types.str;
-        default = config.networking.nameservers ++ [
-          "9.9.9.9"
-          "2620:fe::9"
-        ];
+  options =
+    let
+      inherit (lib) mkOption types mkEnableOption;
+    in
+    {
+      services.resolved = {
+        dns = mkOption {
+          type = types.listOf types.str;
+          default = config.networking.nameservers ++ [
+            "9.9.9.9"
+            "2620:fe::9"
+          ];
+        };
+        multicastDns = mkEnableOption "MulticastDNS support";
       };
-      multicastDns = mkEnableOption "MulticastDNS support";
     };
-  };
   imports = [ ];
   config = {
     networking.networkmanager = {

@@ -4,8 +4,8 @@
   lib,
   ...
 }:
-with builtins;
 let
+  inherit (builtins) filter attrNames foldl';
   std = pkgs.lib;
   wg = config.networking.wireguard;
   wg-signal = wg.networks."wg-signal";
