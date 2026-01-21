@@ -6,6 +6,10 @@
 {
   config = {
     boot = {
+      supportedFilesystems = {
+        "f2fs" = true;
+        "btrfs" = true;
+      };
       tmp = {
         cleanOnBoot = true;
         useTmpfs = true;

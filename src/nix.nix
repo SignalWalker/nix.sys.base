@@ -63,7 +63,7 @@ in
           # "https://cache.lix.systems"
         ];
         trusted-substituters = [
-          "ssh-ng://terra.ashwalker.net"
+          # "ssh-ng://terra.ashwalker.net"
           "https://nix-cache.home.ashwalker.net"
         ];
         trusted-public-keys = [
