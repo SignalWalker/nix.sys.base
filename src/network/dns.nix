@@ -40,14 +40,16 @@ in
         "149.112.112.112"
         "2620:fe::fe"
       ];
-      extraConfig =
-        let
-          mdns = if resolved.multicastDns then "yes" else "no";
-        in
-        ''
-          DNS=${toString resolved.dns}
-          MulticastDNS=${mdns}
-        '';
+      settings = {
+        "Resolve" =
+          let
+            mdns = if resolved.multicastDns then "yes" else "no";
+          in
+          {
+            "DNS" = toString resolved.dns;
+            "MulticastDNS" = mdns;
+          };
+      };
     };
   };
 }
