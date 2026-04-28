@@ -40,7 +40,7 @@
       );
     in
     {
-      formatter = std.mapAttrs (system: pkgs: pkgs.nixfmt-rfc-style) nixpkgsFor;
+      formatter = std.mapAttrs (system: pkgs: pkgs.nixfmt) nixpkgsFor;
       nixosModules.default =
         { ... }:
         {
