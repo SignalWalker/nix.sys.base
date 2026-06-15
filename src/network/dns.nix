@@ -4,7 +4,6 @@
   ...
 }:
 let
-  inherit (builtins) toString;
   resolved = config.services.resolved;
 in
 {
@@ -31,23 +30,23 @@ in
     };
     services.resolved = {
       enable = true;
-      domains = config.networking.search ++ [ "~." ];
       multicastDns = lib.mkDefault (config.networking.domain == "local");
-      llmnr = lib.mkDefault "false";
-      fallbackDns = [
-        "9.9.9.10"
-        "2620:fe::10"
-        "149.112.112.112"
-        "2620:fe::fe"
-      ];
       settings = {
         "Resolve" =
           let
             mdns = if resolved.multicastDns then "yes" else "no";
           in
           {
+            "Domains" = config.networking.search ++ [ "~." ];
+            "LLMNR" = lib.mkDefault "false";
             "DNS" = toString resolved.dns;
             "MulticastDNS" = mdns;
+            "FallbackDNS" = [
+              "9.9.9.10"
+              "2620:fe::10"
+              "149.112.112.112"
+              "2620:fe::fe"
+            ];
           };
       };
     };
