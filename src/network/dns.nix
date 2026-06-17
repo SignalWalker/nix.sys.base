@@ -5,6 +5,7 @@
 }:
 let
   resolved = config.services.resolved;
+  avahi = config.services.avahi;
 in
 {
   options =
@@ -28,13 +29,23 @@ in
     networking.networkmanager = {
       dns = "systemd-resolved";
     };
+    services.avahi = {
+      enable = true;
+      openFirewall = false;
+      nssmdns4 = true;
+      nssmdns6 = true;
+      publish = {
+        enable = true;
+        userServices = true;
+      };
+    };
     services.resolved = {
       enable = true;
-      multicastDns = lib.mkDefault (config.networking.domain == "local");
+      multicastDns = true;
       settings = {
         "Resolve" =
           let
-            mdns = if resolved.multicastDns then "yes" else "no";
+            mdns = if resolved.multicastDns then (if avahi.enable then "resolve" else "yes") else "no";
           in
           {
             "Domains" = config.networking.search ++ [ "~." ];

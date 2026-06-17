@@ -80,11 +80,11 @@
     },
     "wireguard-networks": {
       "locked": {
-        "lastModified": 1733257742,
-        "narHash": "sha256-v6sRtAXS25yzHui3uRXFCIjGizS9PA6Pd30zRBoIMGQ=",
+        "lastModified": 1781732632,
+        "narHash": "sha256-/MN10Acn+geHjh9CY6Cb0OI5/wXWFttHu24l4H69LDU=",
         "owner": "SignalWalker",
         "repo": "nix.net.wireguard",
-        "rev": "8f6874a7ced76da44b3896e1d4e1ecb58c11ee68",
+        "rev": "1d502f4180b37f66cabd032d6ff96651e7218f6c",
         "type": "github"
       },
       "original": {

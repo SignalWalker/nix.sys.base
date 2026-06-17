@@ -3,9 +3,6 @@
   lib,
   ...
 }:
-let
-  isLocal = config.networking.domain == "local";
-in
 {
   options = {
     networking.publicAddresses = lib.mkOption {
@@ -46,16 +43,19 @@ in
       wait-online = {
         anyInterface = lib.mkDefault true;
       };
-      networks."eth" = {
+      networks."10-eth" = {
         enable = true;
         matchConfig = {
           Type = "ether";
-          Name = "enp*";
+          Kind = "!*";
         };
-        linkConfig = { };
+        linkConfig = {
+          Unmanaged = lib.mkDefault (if config.networking.networkmanager.enable then "yes" else "no");
+          Multicast = "yes";
+        };
         networkConfig = {
           DHCP = lib.mkDefault "yes";
-          MulticastDNS = lib.mkDefault (if isLocal then "yes" else "no");
+          MulticastDNS = lib.mkDefault "yes";
           LLMNR = lib.mkDefault "no";
         };
         routes = lib.mkDefault [
@@ -67,17 +67,18 @@ in
           }
         ];
       };
-      networks."wlan" = {
+      networks."10-wlan" = {
         enable = lib.mkDefault true;
         matchConfig = {
-          Type = "wlan";
+          WLANInterfaceType = "station";
         };
         linkConfig = {
           Unmanaged = lib.mkDefault (if config.networking.networkmanager.enable then "yes" else "no");
+          Multicast = "yes";
         };
         networkConfig = {
           DHCP = lib.mkDefault "yes";
-          MulticastDNS = lib.mkDefault (if isLocal then "yes" else "no");
+          MulticastDNS = lib.mkDefault "yes";
           LLMNR = lib.mkDefault "no";
           IgnoreCarrierLoss = "3s";
         };

@@ -4,7 +4,7 @@
   ...
 }:
 let
-  inherit (builtins) head map;
+  inherit (builtins) head;
   peers = config.signal.remoteMachines;
 in
 {
