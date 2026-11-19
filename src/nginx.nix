@@ -13,6 +13,7 @@
     # };
     services.nginx = {
       virtualHostDefaults = {
+        http2 = false;
         blockAgents = {
           enable = lib.mkDefault true;
           agents = lib.mkOptionDefault [
