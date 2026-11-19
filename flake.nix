@@ -2,6 +2,11 @@
   description = "NixOS configuration - base";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      # NOTE :: see `lib` section in https://flake.parts/module-arguments.html
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -18,46 +23,42 @@
     # };
   };
   outputs =
-    inputs@{
-      nixpkgs,
-      ...
-    }:
-    let
-      std = nixpkgs.lib;
-      systems = [
-        "aarch64-darwin"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "x86_64-linux"
-      ];
-      nixpkgsFor = std.genAttrs systems (
-        system:
-        import nixpkgs {
-          localSystem = builtins.currentSystem or system;
-          crossSystem = system;
-          overlays = [ ];
-        }
-      );
-    in
-    {
-      formatter = std.mapAttrs (system: pkgs: pkgs.nixfmt) nixpkgsFor;
-      nixosModules.default =
+    inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      top@{
+        self,
+        ...
+      }:
+      {
+
+        flake = {
+      nixosModules = {
+        zfsRoot = import ./mod/zfs.nix;
+        kernel = import ./mod/kernel.nix;
+        default =
         { ... }:
         {
           imports = [
             inputs.home-manager.nixosModules.default
             inputs.nginx-vhost-defaults.nixosModules.default
             inputs.wireguard-networks.nixosModules.default
-            # inputs.kmonad.nixosModules.default
-            # "${inputs.nix-mineral}/nix-mineral.nix"
+
+            self.nixosModules.kernel
+
             ./nixos-module.nix
           ];
-          config = {
-            nixpkgs.overlays = [
-              # inputs.kmonad.overlays.default
-              # inputs.home-manager.overlays.default
-            ];
-          };
         };
-    };
+      };
+        };
+        systems = [ "x86_64-linux" ];
+        perSystem =
+          { self', pkgs, ... }:
+          {
+            formatter = pkgs.nixfmt;
+            devShells.default = pkgs.mkShell {
+              packages = [ self'.formatter ];
+            };
+          };
+      }
+    );
 }

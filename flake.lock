@@ -3,16 +3,36 @@
     "ai-robots-txt": {
       "flake": false,
       "locked": {
-        "lastModified": 1794662075,
-        "narHash": "sha256-0GVu6ocgt7jrHT858AE7jOzoe9wtPgSU6wtxAJo83Kg=",
+        "lastModified": 1794839279,
+        "narHash": "sha256-5dt1rGwUJKFP2SHR7ENq8U71076J5TaAXtyeQOdHUWs=",
         "owner": "ai-robots-txt",
         "repo": "ai.robots.txt",
-        "rev": "795e897a54ce1f926576de74f1dea4a313e3d204",
+        "rev": "be22abebcf663f7080766ad814829396dd19c659",
         "type": "github"
       },
       "original": {
         "owner": "ai-robots-txt",
         "repo": "ai.robots.txt",
+        "type": "github"
+      }
+    },
+    "flake-parts": {
+      "inputs": {
+        "nixpkgs-lib": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793576659,
+        "narHash": "sha256-V1h85lUaJBQoHFrB2vpXZOE0Ju1MYSnIpsehoVZYlDo=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "ea2630b7470978622c7689a1ff75d2b389175399",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
         "type": "github"
       }
     },
@@ -23,11 +43,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794715309,
-        "narHash": "sha256-awkBBs5ctFKgEYjpNGpi3t/VqF589n5EWfdinRb2gNI=",
+        "lastModified": 1794963576,
+        "narHash": "sha256-+CPrP74GDJ63f7bgEFC9Av4hbxc7K9WUNv1ZVRifRe8=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "a1293da7dd8e497e08d26173f97e2976b36a31ea",
+        "rev": "2b13c9cb3aa20653e6f8ee0b7f8331a53ea9b0a9",
         "type": "github"
       },
       "original": {
@@ -41,11 +61,11 @@
         "ai-robots-txt": "ai-robots-txt"
       },
       "locked": {
-        "lastModified": 1794762594,
-        "narHash": "sha256-OP43jIEWnVO4va8XkjEKlmmZoCpmZOYMBaibOSFarbc=",
+        "lastModified": 1795069697,
+        "narHash": "sha256-L8HB28lygvyp4SD9aJq/n+UDORREYhoBwxSSDsbeqkI=",
         "owner": "SignalWalker",
         "repo": "nix.nginx.vhost-defaults",
-        "rev": "4282a339ace381575821ae17da888988c81bb78f",
+        "rev": "2d608b14c19687747c9a7bad31c5f85406fa463d",
         "type": "github"
       },
       "original": {
@@ -56,11 +76,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1794537146,
-        "narHash": "sha256-Wpz/7x/YWnDIBu7yj6ixe8j6fIMsidd9Y+o1PqPF3iM=",
+        "lastModified": 1794890597,
+        "narHash": "sha256-lME2lHoDHAaSHP3/okgiVoJ0icVEvsQH8LeU3We7tcc=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d5cc6833999746cffdfe0598f7bc801a57b887a9",
+        "rev": "04906337b6d53e8bb0eaf0470ae9f070a4d4eb55",
         "type": "github"
       },
       "original": {
@@ -72,6 +92,7 @@
     },
     "root": {
       "inputs": {
+        "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "nginx-vhost-defaults": "nginx-vhost-defaults",
         "nixpkgs": "nixpkgs",
