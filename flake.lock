@@ -61,11 +61,11 @@
         "ai-robots-txt": "ai-robots-txt"
       },
       "locked": {
-        "lastModified": 1795069697,
+        "lastModified": 1795107285,
         "narHash": "sha256-L8HB28lygvyp4SD9aJq/n+UDORREYhoBwxSSDsbeqkI=",
         "owner": "SignalWalker",
         "repo": "nix.nginx.vhost-defaults",
-        "rev": "2d608b14c19687747c9a7bad31c5f85406fa463d",
+        "rev": "7dd1fdd8b72f513eaea81ac00f685786c16dd915",
         "type": "github"
       },
       "original": {
